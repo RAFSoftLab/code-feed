@@ -13,10 +13,10 @@
         <x-slot:tbody>
         @foreach($commits as $commit)
             <tr class="font-mono">
-                <td>{{$commit->getAuthor()}}</td>
-                <td>{{$commit->getMessage()}}</td>
-                <td>{{date('d-m-Y-H-i-s', $commit->getCreatedAt())}}</td>
-                <td>{{$commit->getTree()}}</td>
+                <td>{{$commit->author}}</td>
+                <td>{{$commit->message}}</td>
+                <td>{{date('d-m-Y-H-i-s', $commit->createdAt)}}</td>
+                <td>{{$commit->tree}}</td>
             </tr>
         @endforeach
         </x-slot:tbody>

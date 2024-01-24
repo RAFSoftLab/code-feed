@@ -8,9 +8,6 @@
         @vite('resources/css/app.css')
     </head>
     <body>
-        <h1 class="text-4xl font-bold underline">
-            {{$title}}
-        </h1>
         {{ $slot }}
     </body>
 </html>
