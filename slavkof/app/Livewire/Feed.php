@@ -30,7 +30,7 @@ class Feed extends Component
 
     protected function generateTmpDir(): string
     {
-        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.'test'.time();
+        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.'repo'.time();
         mkdir($dirname);
 
         return $dirname;
