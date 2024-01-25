@@ -10,7 +10,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8",
+        "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.3",
         "opcodesio/log-viewer": "^3.1",
         "pear/pear": "^1.10",

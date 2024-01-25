@@ -4,16 +4,17 @@ namespace App\Console\Commands;
 
 use App\Models\Commit;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
 use VersionControl_Git;
 
-class LoadGitRepository extends Command
+class LoadGitRepository extends Command  implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:load-git-repository';
+    protected $signature = 'app:load-git-repository {repository}';
 
     /**
      * The console command description.
@@ -27,19 +28,31 @@ class LoadGitRepository extends Command
      */
     public function handle()
     {
-        $gitRootDir = $this->generateTmpDir();
-        $git = new VersionControl_Git($gitRootDir);
+        $githubRepository = $this->argument('repository');
+        $pattern = '/:(.*)\/(.*).git/';
+        preg_match($pattern, $githubRepository, $matches);
+        $organization =  $matches[1];
+        $repository = $matches[2];
 
-        $git->createClone('https://github.com/RAFSoftLab/code-feed.git', false,'code-feed');
+
+
+        $gitRootDir = $this->generateTmpDir();
+
+        $git = new VersionControl_Git($gitRootDir);
+        $git->createClone($githubRepository, false, $repository);
         $commits =  $git->getCommits('master');
-        $this->removeDirectory($gitRootDir.'/code-feed');
+
+        $this->removeDirectory($gitRootDir.$repository);
+
+        Commit::truncate();
 
         foreach ($commits as $commit) {
             Commit::create([
                 'author' => $commit->getAuthor(),
                 'message' => $commit->getMessage(),
-                'repository' => 'code-feed',
-                'tree' => $commit->getTree(),
+                'repository' => $repository,
+                'organization' => $organization,
+                'tree' => $commit,
                 'committer' => $commit->getCommitter(),
                 'created_at' => $commit->getCreatedAt(),
                 'committed_at' => $commit->getCommittedAt(),
@@ -49,7 +62,7 @@ class LoadGitRepository extends Command
 
     protected function generateTmpDir(): string
     {
-        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.'repo'.time();
+        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.'repo'.time().DIRECTORY_SEPARATOR;
         mkdir($dirname);
 
         return $dirname;

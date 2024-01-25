@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('author')->nullable();
             $table->string('message')->nullable();
-            $table->string('repository')->nullable();
+            $table->string('repository');
+            $table->string('organization');
             $table->string('committer')->nullable();
             $table->string('tree')->nullable();
             $table->integer('created_at')->nullable();

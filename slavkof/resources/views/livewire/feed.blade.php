@@ -13,7 +13,7 @@
         <x-slot:tbody>
         @foreach($commits as $commit)
             <tr class="font-mono">
-                <td>{{$commit->author}}</td>
+                <td><a href={{'https://github.com/'.$commit->organization.'/'. $commit->repository.'/commit/'.$commit->tree}}>{{$commit->author}}</a></td>
                 <td>{{$commit->message}}</td>
                 <td>{{date('d-m-Y-H-i-s', $commit->createdAt)}}</td>
                 <td>{{$commit->tree}}</td>

@@ -29,6 +29,7 @@ RUN apt-get update -y \
        zlib1g-dev \
        openssh-client \
        cron \
+       php-sqlite3\
     && docker-php-ext-install gd \
     && docker-php-ext-install opcache \
     && docker-php-ext-install zip \

@@ -11,5 +11,5 @@ class Commit extends Model
 
     use HasFactory;
 
-    protected $fillable = ['author', 'message', 'repository', 'tree',  'committer', 'created_at', 'committed_at'];
+    protected $fillable = ['author', 'message', 'repository', 'tree',  'committer', 'created_at', 'committed_at', 'organization'];
 }
