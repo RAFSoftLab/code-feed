@@ -15,18 +15,19 @@ class Commit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'author',
+        'author_name',
+        'author_email',
         'message',
         'repository',
-        'tree',
+        'hash',
         'committer',
         'created_at',
         'committed_at',
         'organization'
     ];
 
-    /*
-     * GetTitle should return the first line in message and if the line is longer than 20 characters,
+    /**
+     * GetTitle should return the first line in message and if the line is longer than 120 characters,
      * it should be truncated
      */
     public function getTitle(): bool|string
@@ -39,26 +40,12 @@ class Commit extends Model
     }
 
     /**
-     * If author is formatted as name <email>, return name
-     */
-    public function getAuthor(): string
-    {
-        return explode('<', $this->author)[0];
-    }
-
-    /**
      * Get the GitHub avatar URL from the author.
      *
      * @return string|null The GitHub avatar URL or null if not found.
      */
     public function getGithubAvatarUrl(GithubService $service): ?string
     {
-        // Extract the email from the author
-        $email = explode('<', $this->author)[1] ?? null;
-        if (!$email) {
-            return 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1745180411.jpg';
-        }
-
-        return $service->loadAvatar($email);
+        return $service->loadAvatar($this->author_email);
     }
 }

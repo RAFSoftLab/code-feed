@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('commits', function (Blueprint $table) {
             $table->id();
-            $table->string('author')->nullable();
-            $table->string('message')->nullable();
+            $table->string('author_name');
+            $table->string('author_email');
+            $table->string('message');
             $table->string('repository');
             $table->string('organization');
-            $table->string('committer')->nullable();
-            $table->string('tree')->nullable();
-            $table->integer('created_at')->nullable();
+            $table->string('hash');
+            $table->integer('created_at');
             $table->integer('committed_at')->nullable();
         });
     }

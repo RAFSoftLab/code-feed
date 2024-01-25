@@ -11,7 +11,7 @@
                             </div>
                             <div class="content">
                                 <p>
-                                    {{$post->getAuthor()}}<a  class="post-link" href={{'https://github.com/'.$post->organization.'/'. $post->repository.'/commit/'.$post->tree}}>{{$post->getTitle() }}</a>
+                                    {{$post->AuthorName}}<a class="post-link" href={{'https://github.com/'.$post->organization.'/'. $post->repository.'/commit/'.$post->tree}}>{{$post->getTitle() }}</a>
                                 </p>
                                 <span class="time">{{date('d-m-Y-H-i-s', $post->createdAt)}}</span>
                             </div>

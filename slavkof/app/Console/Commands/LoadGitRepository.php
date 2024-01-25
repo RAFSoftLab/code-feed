@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\Commit;
+use Gitonomy\Git\Admin;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use VersionControl_Git;
 
 class LoadGitRepository extends Command  implements PromptsForMissingInput
 {
@@ -26,35 +26,36 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $githubRepository = $this->argument('repository');
+
+        $gitRootDir = $this->generateTmpDir();
+
+        $repository = Admin::cloneTo($gitRootDir, $githubRepository, false);
+        $log = $repository->getLog();
+        $commits = $log->getCommits();
+
+        $this->removeDirectory($gitRootDir);
+
+        Commit::truncate();
+        // pattern for ssh links
 //        $pattern = '/:(.*)\/(.*).git/';
 //        preg_match($pattern, $githubRepository, $matches);
         preg_match('~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~', $githubRepository, $matches);
         $organizationName = $matches[1];
         $repositoryName = $matches[2];
-
-        $gitRootDir = $this->generateTmpDir();
-
-        $git = new VersionControl_Git();
-        $git->createClone($githubRepository, false, $gitRootDir);
-        $commits =  $git->getCommits('master');
-
-        $this->removeDirectory($gitRootDir);
-
-        Commit::truncate();
-
         foreach ($commits as $commit) {
+            echo $commit->getAuthorEmail();
             Commit::create([
-                'author' => $commit->getAuthor(),
+                'author_name' => $commit->getAuthorName(),
+                'author_email' => $commit->getAuthorEmail(),
                 'message' => $commit->getMessage(),
                 'repository' => $repositoryName,
                 'organization' => $organizationName,
-                'tree' => $commit,
-                'committer' => $commit->getCommitter(),
-                'created_at' => $commit->getCreatedAt(),
-                'committed_at' => $commit->getCommittedAt(),
+                'hash' => $commit->getHash(),
+                'created_at' => $commit->getAuthorDate(),
+                'committed_at' => $commit->getAuthorDate(),
             ]);
         }
     }
@@ -63,7 +64,6 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
     {
         $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.time().'repo';
         mkdir($dirname);
-        echo $dirname;
 
         return $dirname;
     }
