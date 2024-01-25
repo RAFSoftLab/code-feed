@@ -37,8 +37,8 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
 
         $gitRootDir = $this->generateTmpDir();
 
-        $git = new VersionControl_Git($gitRootDir);
-        $git->createClone($githubRepository);
+        $git = new VersionControl_Git();
+        $git->createClone($githubRepository, false, $gitRootDir);
         $commits =  $git->getCommits('master');
 
         $this->removeDirectory($gitRootDir);
