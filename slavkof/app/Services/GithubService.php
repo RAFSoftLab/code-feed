@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Http;
 
 class GithubService
@@ -22,7 +21,7 @@ class GithubService
         $data = $response->json();
         if ($response->ok() && count($data['items']) > 0) {
             $username = $data['items'][0]['login'];
-            $this->emailsToAvatars[$email] = "https://avatars.githubusercontent.com/{$username}";
+            $this->emailsToAvatars[$email] = "https://avatars.githubusercontent.com/$username";
             return $this->emailsToAvatars[$email];
         }
 
