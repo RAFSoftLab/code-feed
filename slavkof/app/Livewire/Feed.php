@@ -14,6 +14,6 @@ class Feed extends Component
     public function render()
     {
         return view('livewire.feed')
-            ->with('commits', Commit::all());
+            ->with('posts', Commit::all());
     }
 }

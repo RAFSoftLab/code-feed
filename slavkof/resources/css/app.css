@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add this to your CSS file */
+
+.newsfeed-item {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+.time {
+    color: #888;
+    font-size: 12px;
+}
