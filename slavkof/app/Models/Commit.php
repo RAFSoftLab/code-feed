@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GithubService;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,23 +51,14 @@ class Commit extends Model
      *
      * @return string|null The GitHub avatar URL or null if not found.
      */
-    public function getGithubAvatarUrl(): ?string
+    public function getGithubAvatarUrl(GithubService $service): ?string
     {
         // Extract the email from the author
         $email = explode('<', $this->author)[1] ?? null;
         if (!$email) {
-            return null;
+            return 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1745180411.jpg';
         }
 
-        $response = Http::get('https://api.github.com/search/users', [
-            'q' => "in:email " . $email,
-        ]);
-        $data = $response->json();
-        if ($response->ok() && count($data['items']) > 0) {
-            $username = $data['items'][0]['login'];
-            return "https://avatars.githubusercontent.com/{$username}";
-        }
-
-        return 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1745180411.jpg';
+        return $service->loadAvatar($email);
     }
 }

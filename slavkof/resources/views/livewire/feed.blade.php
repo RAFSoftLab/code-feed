@@ -7,7 +7,7 @@
                     @foreach ($posts as $post)
                         <div class="newsfeed-item">
                             <div class="avatar">
-                                <img src="{{$post->getGithubAvatarUrl()}}" alt="User Avatar">
+                                <img src="{{$post->getGithubAvatarUrl($githubService)}}" alt="User Avatar">
                             </div>
                             <div class="content">
                                 <p>
