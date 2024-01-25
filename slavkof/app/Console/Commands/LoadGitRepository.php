@@ -34,15 +34,13 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
         $organization =  $matches[1];
         $repository = $matches[2];
 
-
-
         $gitRootDir = $this->generateTmpDir();
 
         $git = new VersionControl_Git($gitRootDir);
-        $git->createClone($githubRepository, false, $repository);
+        $git->createClone($githubRepository);
         $commits =  $git->getCommits('master');
 
-        $this->removeDirectory($gitRootDir.$repository);
+        $this->removeDirectory($gitRootDir);
 
         Commit::truncate();
 
@@ -62,8 +60,9 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
 
     protected function generateTmpDir(): string
     {
-        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.'repo'.time().DIRECTORY_SEPARATOR;
+        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.time();
         mkdir($dirname);
+        echo $dirname;
 
         return $dirname;
     }

@@ -7,12 +7,11 @@
                     @foreach ($posts as $post)
                         <div class="newsfeed-item">
                             <div class="avatar">
-                                <img src="https://avatars.githubusercontent.com/u/23264032?v=4" alt="User Avatar">
+                                <img src="{{$post->getGithubAvatarUrl()}}" alt="User Avatar">
                             </div>
                             <div class="content">
                                 <p>
-                                    <a href={{'https://github.com/'.$post->organization.'/'. $post->repository.'/commit/'.$post->tree}}>{{$post->getAuthor()}}</a>
-                                    {{ $post->getTitle() }}
+                                    {{$post->getAuthor()}}<a  class="post-link" href={{'https://github.com/'.$post->organization.'/'. $post->repository.'/commit/'.$post->tree}}>{{$post->getTitle() }}</a>
                                 </p>
                                 <span class="time">{{date('d-m-Y-H-i-s', $post->createdAt)}}</span>
                             </div>

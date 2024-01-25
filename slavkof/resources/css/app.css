@@ -24,3 +24,15 @@
     color: #888;
     font-size: 12px;
 }
+.post-link {
+    text-decoration: none;
+    color: #3498db; /* Unvisited link color */
+}
+
+.post-link:visited {
+    color: #34495e; /* Visited link color */
+}
+
+.post-link:hover {
+    text-decoration: underline;
+}
