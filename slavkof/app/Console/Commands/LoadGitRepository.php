@@ -29,10 +29,11 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
     public function handle()
     {
         $githubRepository = $this->argument('repository');
-        $pattern = '/:(.*)\/(.*).git/';
-        preg_match($pattern, $githubRepository, $matches);
-        $organization =  $matches[1];
-        $repository = $matches[2];
+//        $pattern = '/:(.*)\/(.*).git/';
+//        preg_match($pattern, $githubRepository, $matches);
+        preg_match('~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~', $githubRepository, $matches);
+        $organizationName = $matches[1];
+        $repositoryName = $matches[2];
 
         $gitRootDir = $this->generateTmpDir();
 
@@ -48,8 +49,8 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
             Commit::create([
                 'author' => $commit->getAuthor(),
                 'message' => $commit->getMessage(),
-                'repository' => $repository,
-                'organization' => $organization,
+                'repository' => $repositoryName,
+                'organization' => $organizationName,
                 'tree' => $commit,
                 'committer' => $commit->getCommitter(),
                 'created_at' => $commit->getCreatedAt(),
@@ -60,7 +61,7 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
 
     protected function generateTmpDir(): string
     {
-        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.time();
+        $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.time().'repo';
         mkdir($dirname);
         echo $dirname;
 
