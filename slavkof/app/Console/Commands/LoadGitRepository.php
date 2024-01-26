@@ -46,7 +46,6 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
         $organizationName = $matches[1];
         $repositoryName = $matches[2];
         foreach ($commits as $commit) {
-            echo $commit->getAuthorEmail();
             Commit::create([
                 'author_name' => $commit->getAuthorName(),
                 'author_email' => $commit->getAuthorEmail(),
