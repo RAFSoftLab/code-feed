@@ -30,11 +30,27 @@ class Commit extends Model
      */
     public function getTitle(): bool|string
     {
-        $firstLine = strtok($this->message, "\n");
-        if (strlen($firstLine) > 120) {
-            return substr($firstLine, 0, 120) . '...';
+        return $this->parseTitleAndSummary($this->message)['title'];
+    }
+
+    public function getSummary(): string
+    {
+        return $this->parseTitleAndSummary($this->message)['summary'];
+    }
+
+    function parseTitleAndSummary(string $commitMessage): array
+    {
+        $pattern = '/^(?P<title>.+?)\n{2}(?P<summary>.+)/s';
+        if (preg_match($pattern, $commitMessage, $matches)) {
+            return [
+                'title' => $matches['title'],
+                'summary' => $matches['summary']
+            ];
         }
-        return $firstLine;
+        return [
+            'title' => $commitMessage,
+            'summary' => ''
+        ];
     }
 
     /**
