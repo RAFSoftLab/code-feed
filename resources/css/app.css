@@ -41,15 +41,17 @@
 
 .post-link {
     text-decoration: none;
-    color: #3498db; /* Unvisited link color */
+    color: black; /* Black color for normal links */
 }
 
 .post-link:visited {
-    color: #34495e; /* Visited link color */
+    color: #666; /* Dark gray color for visited links */
 }
 
 .post-link:hover {
     text-decoration: underline;
 }
 
-
+.post-link:active {
+    color: #888; /* Grey color when link is clicked */
+}
