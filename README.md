@@ -10,3 +10,5 @@ MIT
 ## Running locally
 `sudo chmod -R 777 storage` once after checkout.
 `docker compose up -d`
+
+[![PHP](https://github.com/RAFSoftLab/code-feed/actions/workflows/ci.yml/badge.svg)](https://github.com/RAFSoftLab/code-feed/actions/workflows/ci.yml)
