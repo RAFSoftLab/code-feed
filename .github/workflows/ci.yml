@@ -15,3 +15,5 @@ jobs:
         uses: php-actions/composer@v6
       - name: Run Tests
         run: php artisan test --coverage
+        env:
+          XDEBUG_MODE: coverage
