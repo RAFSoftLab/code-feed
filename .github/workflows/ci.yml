@@ -14,6 +14,9 @@ jobs:
       - name: Install Composer Dependencies
         uses: php-actions/composer@v6
       - name: Run Tests
-        run: php artisan test --coverage
-        env:
-          XDEBUG_MODE: coverage
+      - uses: php-actions/phpunit@v3
+        with:
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          colors: true
+          verbose: true
