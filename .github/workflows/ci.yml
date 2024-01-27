@@ -16,7 +16,5 @@ jobs:
       - name: Run Tests
         uses: php-actions/phpunit@v3
         with:
-          bootstrap: vendor/autoload.php
-          configuration: phpunit.xml
-          colors: true
-          verbose: true
+          php_extensions: "xdebug"
+          coverage_clover: "coverage/clover.xml"
