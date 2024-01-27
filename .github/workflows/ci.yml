@@ -13,7 +13,5 @@ jobs:
         run: cp .env.example .env
       - name: Install Composer Dependencies
         uses: php-actions/composer@v6
-      - name: Generate Application Key
-        run: php artisan key:generate
       - name: Run Tests
-        run: php vendor/bin/phpunit --configuration phpunit.xml tests/Unit;
+        run: php artisan test --coverage
