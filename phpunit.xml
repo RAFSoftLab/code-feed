@@ -16,7 +16,12 @@
         <include>
             <directory>app</directory>
         </include>
+        <exclude>
+            <file>app/Console/Kernel.php</file>
+            <file>app/Providers/RouteServiceProvider.php</file>
+        </exclude>
     </source>
+
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
