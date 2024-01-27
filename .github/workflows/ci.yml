@@ -19,5 +19,5 @@ jobs:
           php_extensions: "xdebug"
           coverage_clover: "coverage/clover.xml"
           args: --coverage-text
-          env:
+        env:
             XDEBUG_MODE: coverage
