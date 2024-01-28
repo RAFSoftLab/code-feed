@@ -7,14 +7,14 @@ use App\Services\GithubService;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-class Feed extends Component
+class CommitFeed extends Component
 {
 
     #[Title('Feed')]
     public function render(GithubService $service)
     {
         return view('livewire.feed')
-            ->with('posts', Commit::all())
+            ->with('commits', Commit::all())
             ->with('githubService', $service);
     }
 }

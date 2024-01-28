@@ -4,17 +4,18 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        @foreach ($posts as $post)
+                        @foreach ($commits as $commit)
                             <div class="newsfeed-item">
                                 <div class="avatar">
-                                    <img src="{{$post->getGithubAvatarUrl($githubService)}}" alt="User Avatar">
+                                    <img src="{{$commit->getGithubAvatarUrl($githubService)}}" alt="User Avatar">
                                 </div>
                                 <div class="content">
                                     <p>
-                                        <a class="post-link" href="{{'https://github.com/'.$post->organization.'/'.$post->repository.'/commit/'.$post->tree}}">{{$post->title}}</a>
+                                        <a class="post-link"
+                                           href="{{'https://github.com/'.$commit->organization.'/'.$commit->repository.'/commit/'.$commit->hash}}">{{$commit->title}}</a>
                                     </p>
-                                    <p class="summary">{{ \Illuminate\Support\Str::limit($post->summary, 300) }}</p>
-                                    <span class="time">{{date('d-m-Y-H-i-s', $post->createdAt)}}</span>
+                                    <p class="summary">{{ \Illuminate\Support\Str::limit($commit->summary, 300) }}</p>
+                                    <span class="time">{{date('d-m-Y-H-i-s', $commit->createdAt)}}</span>
                                 </div>
                             </div>
                         @endforeach

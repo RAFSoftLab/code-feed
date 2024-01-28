@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Feed;
+use App\Livewire\CommitFeed;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +18,4 @@ Route::get('/', function () {
     return redirect('feed');
 });
 
-Route::get('feed', Feed::class);
+Route::get('commits', CommitFeed::class);
