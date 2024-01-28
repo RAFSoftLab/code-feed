@@ -6,7 +6,6 @@ use App\Models\Commit;
 use App\Services\GithubService;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use VersionControl_Git;
 
 class Feed extends Component
 {

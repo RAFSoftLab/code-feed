@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('author_name');
             $table->string('author_email');
-            $table->string('message');
+            $table->string('title');
+            $table->string('summary');
             $table->string('repository');
             $table->string('organization');
             $table->string('hash');

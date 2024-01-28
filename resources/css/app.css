@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add this to your CSS file */
-
 .newsfeed-item {
     display: flex;
     align-items: center; /* Align items vertically */

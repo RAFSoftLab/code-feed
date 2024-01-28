@@ -15,7 +15,8 @@ class Commit extends Model
     protected $fillable = [
         'author_name',
         'author_email',
-        'message',
+        'title',
+        'summary',
         'repository',
         'hash',
         'committer',
@@ -23,35 +24,6 @@ class Commit extends Model
         'committed_at',
         'organization'
     ];
-
-    /**
-     * GetTitle should return the first line in message and if the line is longer than 120 characters,
-     * it should be truncated
-     */
-    public function getTitle(): bool|string
-    {
-        return $this->parseTitleAndSummary($this->message)['title'];
-    }
-
-    public function getSummary(): string
-    {
-        return $this->parseTitleAndSummary($this->message)['summary'];
-    }
-
-    function parseTitleAndSummary(string $commitMessage): array
-    {
-        $pattern = '/^(?P<title>.+?)\n{2}(?P<summary>.+)/s';
-        if (preg_match($pattern, $commitMessage, $matches)) {
-            return [
-                'title' => $matches['title'],
-                'summary' => $matches['summary']
-            ];
-        }
-        return [
-            'title' => $commitMessage,
-            'summary' => ''
-        ];
-    }
 
     /**
      * Get the GitHub avatar URL from the author.

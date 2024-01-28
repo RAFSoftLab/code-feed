@@ -40,16 +40,18 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
 
         Commit::truncate();
         // pattern for ssh links
-//        $pattern = '/:(.*)\/(.*).git/';
-//        preg_match($pattern, $githubRepository, $matches);
+        // $pattern = '/:(.*)\/(.*).git/';
+        // preg_match($pattern, $githubRepository, $matches);
         preg_match('~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~', $githubRepository, $matches);
         $organizationName = $matches[1];
         $repositoryName = $matches[2];
         foreach ($commits as $commit) {
+            $parsedTitleAndSummary = $this->parseTitleAndSummary($commit->getMessage());
             Commit::create([
                 'author_name' => $commit->getAuthorName(),
                 'author_email' => $commit->getAuthorEmail(),
-                'message' => $commit->getMessage(),
+                'title' => $parsedTitleAndSummary['title'],
+                'summary' => $parsedTitleAndSummary['summary'],
                 'repository' => $repositoryName,
                 'organization' => $organizationName,
                 'hash' => $commit->getHash(),
@@ -59,7 +61,22 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
         }
     }
 
-    protected function generateTmpDir(): string
+    private function parseTitleAndSummary(string $commitMessage): array
+    {
+        $pattern = '/^(?P<title>.+?)\n{2}(?P<summary>.+)/s';
+        if (preg_match($pattern, $commitMessage, $matches)) {
+            return [
+                'title' => $matches['title'],
+                'summary' => $matches['summary']
+            ];
+        }
+        return [
+            'title' => $commitMessage,
+            'summary' => ''
+        ];
+    }
+
+    private function generateTmpDir(): string
     {
         $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.time().'repo';
         mkdir($dirname);
@@ -67,7 +84,7 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
         return $dirname;
     }
 
-    protected function removeDirectory($dir): void
+    private function removeDirectory($dir): void
     {
         system('rm -rf '.$dir);
     }

@@ -11,9 +11,9 @@
                                 </div>
                                 <div class="content">
                                     <p>
-                                        <a class="post-link" href="{{'https://github.com/'.$post->organization.'/'.$post->repository.'/commit/'.$post->tree}}">{{$post->getTitle() }}</a>
+                                        <a class="post-link" href="{{'https://github.com/'.$post->organization.'/'.$post->repository.'/commit/'.$post->tree}}">{{$post->title}}</a>
                                     </p>
-                                    <p class="summary">{{ \Illuminate\Support\Str::limit($post->getSummary(), 300) }}</p>
+                                    <p class="summary">{{ \Illuminate\Support\Str::limit($post->summary, 300) }}</p>
                                     <span class="time">{{date('d-m-Y-H-i-s', $post->createdAt)}}</span>
                                 </div>
                             </div>
