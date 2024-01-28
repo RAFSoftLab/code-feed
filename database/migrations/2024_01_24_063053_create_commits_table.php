@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('summary');
             $table->string('repository');
             $table->string('organization');
+            $table->boolean('hasSecurityIssues');
             $table->string('hash');
             $table->integer('created_at');
             $table->integer('committed_at')->nullable();

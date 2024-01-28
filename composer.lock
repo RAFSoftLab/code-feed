@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0080d8dec8f430bc15bd26cc74939a8e",
+    "content-hash": "ba12d4d30769eb640cb9f9ef102ee761",
     "packages": [
+        {
+            "name": "blinq/openai",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blinq-dev/php-openai-api.git",
+                "reference": "607972a18cb8fb9d53101b26003ac5aee5b54657"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blinq-dev/php-openai-api/zipball/607972a18cb8fb9d53101b26003ac5aee5b54657",
+                "reference": "607972a18cb8fb9d53101b26003ac5aee5b54657",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Blinq\\LLM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lennard",
+                    "email": "github@blinq.dev"
+                }
+            ],
+            "description": "PHP library wrapper for the OpenAI API.",
+            "support": {
+                "issues": "https://github.com/blinq-dev/php-openai-api/issues",
+                "source": "https://github.com/blinq-dev/php-openai-api/tree/v1.0.4"
+            },
+            "time": "2023-09-25T12:43:48+00:00"
+        },
         {
             "name": "brandymedia/turbine-ui-core",
             "version": "v1.0.4",

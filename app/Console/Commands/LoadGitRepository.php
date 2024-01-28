@@ -3,18 +3,20 @@
 namespace App\Console\Commands;
 
 use App\Models\Commit;
+use App\Services\AI\OpenAIService;
 use Gitonomy\Git\Admin;
+use Gitonomy\Git\Diff\FileChange;
+use Gitonomy\Git\Tree;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Console\PromptsForMissingInput;
 
-class LoadGitRepository extends Command  implements PromptsForMissingInput
+class LoadGitRepository extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:load-git-repository {repository}';
+    protected $signature = 'app:load-git-repository';
 
     /**
      * The console command description.
@@ -26,9 +28,13 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(OpenAIService $openAIService): void
     {
-        $githubRepository = $this->argument('repository');
+        $arguments = $this->arguments();
+        if (empty($githubRepository))
+            $githubRepository = 'https://github.com/RAFSoftLab/code-feed-test-repo.git';
+        else
+            $githubRepository = $arguments[0];
 
         $gitRootDir = $this->generateTmpDir();
 
@@ -47,6 +53,9 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
         $repositoryName = $matches[2];
         foreach ($commits as $commit) {
             $parsedTitleAndSummary = $this->parseTitleAndSummary($commit->getMessage());
+            $commitChanges = $this->getCommitChanges($commit);
+            $hasSecurityIssues =false; //$openAIService->findIssues($commit->getHash())['security'];
+
             Commit::create([
                 'author_name' => $commit->getAuthorName(),
                 'author_email' => $commit->getAuthorEmail(),
@@ -54,10 +63,50 @@ class LoadGitRepository extends Command  implements PromptsForMissingInput
                 'summary' => $parsedTitleAndSummary['summary'],
                 'repository' => $repositoryName,
                 'organization' => $organizationName,
+                'hasSecurityIssues' => $hasSecurityIssues,
                 'hash' => $commit->getHash(),
                 'created_at' => $commit->getAuthorDate(),
                 'committed_at' => $commit->getAuthorDate(),
             ]);
+        }
+    }
+
+    private function getCommitChanges(\Gitonomy\Git\Commit $commit): string
+    {
+        $this->displayTree($commit->getTree());
+//        $files = $diff->getFiles();
+//        foreach ($files as $file) {
+//            $changes = $file->getChanges();
+//            foreach ($changes as $change) {
+//                $lines = $change->getLines();
+//                foreach ($lines as $data) {
+//                    list ($type, $line) = $data;
+//                    if ($type === FileChange::LINE_CONTEXT) {
+//                        echo ' '.$line.PHP_EOL;
+//                    } elseif ($type === FileChange::LINE_ADD) {
+//                        echo '+'.$line.PHP_EOL;
+//                    } else {
+//                        echo '-'.$line.PHP_EOL;
+//                    }
+//                }
+//            }
+//        }
+
+
+        return '';
+    }
+
+    function displayTree(Tree $tree, int $indent = 0): void
+    {
+        $indent_str = str_repeat(' ', $indent);
+        foreach ($tree->getEntries() as $name => $data) {
+            list($mode, $entry) = $data;
+            if ($entry instanceof Tree) {
+                echo $indent_str.$name.'/'.PHP_EOL;
+                $this->displayTree($tree, $indent + 1);
+            } else {
+                echo $indent_str.$name.PHP_EOL;
+            }
         }
     }
 
