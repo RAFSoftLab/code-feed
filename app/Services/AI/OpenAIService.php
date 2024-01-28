@@ -16,10 +16,12 @@ class OpenAIService implements LLMService
 
     public function findIssues(string $commit): array
     {
-        $systemMessage = "You are cyber-security and coding expert. " .
-        "If commit has both bugs and security issues, answer only hasBoth.".
-        "If commit has bugs, answer  only hasBugs.".
-        "If commit has security issues, answer only hasSecurityIssues.";
+        $systemMessage = <<<TEXT
+                            You are cyber-security and coding expert.
+                            If commit has both bugs and security issues, answer only hasBoth.
+                            If commit has bugs, answer  only hasBugs.
+                            If commit has security issues, answer only hasSecurityIssues.
+                            TEXT;
 
         $result = $this->client->chat()->create([
             'model' => 'gpt-3.5-turbo',
