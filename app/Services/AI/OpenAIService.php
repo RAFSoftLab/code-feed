@@ -2,8 +2,7 @@
 
 namespace App\Services\AI;
 
-use Blinq\LLM\Client;
-use Blinq\LLM\Config\ApiConfig;
+use OpenAI\Client;
 
 class OpenAIService implements LLMService
 {
@@ -12,18 +11,32 @@ class OpenAIService implements LLMService
     public function __construct()
     {
         $apiKey = config('ai.openai_key', );
-        $config = new ApiConfig('openai', $apiKey);
-        $this->client = new Client($config);
-
+        $this->client = \OpenAI::client($apiKey);
     }
 
     public function findIssues(string $commit): array
     {
-        $prompt = "Assume role of a security expert check for security issues in the following commit message:\n $commit";
-        $prompt .= "\nAnswer only using  true or false";
+        $systemMessage = "You are cyber-security and coding expert. " .
+        "If commit has both bugs and security issues, answer only hasBoth.".
+        "If commit has bugs, answer  only hasBugs.".
+        "If commit has security issues, answer only hasSecurityIssues.";
 
-        $response = $this->client->chat($prompt)>getLastMessage()->content;
-        print ($response."\n");
-        return array('security' => boolval($response));
+        $result = $this->client->chat()->create([
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
+                ['role' => 'system', 'content' => $systemMessage],
+                ['role' => 'user', 'content' =>  $commit],
+            ],
+            'temperature' => 0,
+        ]);
+
+        $result = $result->choices[0]->message->content;
+
+        return match ($result) {
+            'hasBoth' => ['hasBugs' => true, 'hasSecurityIssues' => true],
+            'hasBugs' => ['hasBugs' => true, 'hasSecurityIssues' => false],
+            'hasSecurityIssues' => ['hasBugs' => false, 'hasSecurityIssues' => true],
+            default => ['hasBugs' => false, 'hasSecurityIssues' => false],
+        };
     }
 }

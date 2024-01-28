@@ -42,8 +42,6 @@ class LoadGitRepository extends Command
         $log = $repository->getLog();
         $commits = $log->getCommits();
 
-        $this->removeDirectory($gitRootDir);
-
         Commit::truncate();
         // pattern for ssh links
         // $pattern = '/:(.*)\/(.*).git/';
@@ -53,8 +51,8 @@ class LoadGitRepository extends Command
         $repositoryName = $matches[2];
         foreach ($commits as $commit) {
             $parsedTitleAndSummary = $this->parseTitleAndSummary($commit->getMessage());
-            $commitChanges = $this->getCommitChanges($commit);
-            $hasSecurityIssues =false; //$openAIService->findIssues($commit->getHash())['security'];
+            $commitChanges = $this->getCommitChanges($commit->getHash(), $gitRootDir);
+            $issues = $openAIService->findIssues($commitChanges);
 
             Commit::create([
                 'author_name' => $commit->getAuthorName(),
@@ -63,37 +61,21 @@ class LoadGitRepository extends Command
                 'summary' => $parsedTitleAndSummary['summary'],
                 'repository' => $repositoryName,
                 'organization' => $organizationName,
-                'hasSecurityIssues' => $hasSecurityIssues,
+                'hasSecurityIssues' => $issues['hasSecurityIssues'],
+                'hasBugs' => $issues['hasBugs'],
                 'hash' => $commit->getHash(),
                 'created_at' => $commit->getAuthorDate(),
                 'committed_at' => $commit->getAuthorDate(),
             ]);
         }
+
+        $this->removeDirectory($gitRootDir);
     }
 
-    private function getCommitChanges(\Gitonomy\Git\Commit $commit): string
+    private function getCommitChanges(string $commitHash, $gitDirectory): string
     {
-        $this->displayTree($commit->getTree());
-//        $files = $diff->getFiles();
-//        foreach ($files as $file) {
-//            $changes = $file->getChanges();
-//            foreach ($changes as $change) {
-//                $lines = $change->getLines();
-//                foreach ($lines as $data) {
-//                    list ($type, $line) = $data;
-//                    if ($type === FileChange::LINE_CONTEXT) {
-//                        echo ' '.$line.PHP_EOL;
-//                    } elseif ($type === FileChange::LINE_ADD) {
-//                        echo '+'.$line.PHP_EOL;
-//                    } else {
-//                        echo '-'.$line.PHP_EOL;
-//                    }
-//                }
-//            }
-//        }
-
-
-        return '';
+        exec("cd $gitDirectory && git --no-pager show $commitHash", $output);
+        return implode("\n", $output);
     }
 
     function displayTree(Tree $tree, int $indent = 0): void

@@ -19,6 +19,7 @@ class Commit extends Model
         'summary',
         'repository',
         'hasSecurityIssues',
+        'hasBugs',
         'hash',
         'committer',
         'created_at',
