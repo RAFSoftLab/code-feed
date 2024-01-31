@@ -18,10 +18,15 @@ return new class extends Migration
             $table->string('title');
             $table->longText('content');
             $table->timestamps();
-            $table->foreignIdFor(Commit::class);
+            $table->foreignIdFor(Commit::class)
+                ->constrained()
+                ->onDelete('cascade');;
         });
         Schema::table('commits', function (Blueprint $table) {
-            $table->foreignIdFor(Post::class)->nullable()->onDelete('cascade');
+            $table->foreignIdFor(Post::class)
+                ->nullable()
+                ->constrained()
+                ->onDelete('cascade');
         });
     }
 
