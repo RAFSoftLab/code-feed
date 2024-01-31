@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\GithubService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Commit extends Model
 {
@@ -28,13 +29,8 @@ class Commit extends Model
         'change'
     ];
 
-    /**
-     * Get the GitHub avatar URL from the author.
-     *
-     * @return string|null The GitHub avatar URL or null if not found.
-     */
-    public function getGithubAvatarUrl(GithubService $service): ?string
+    public function comments(): HasMany
     {
-        return $service->loadAvatar($this->author_email);
+        return $this->hasMany(Post::class);
     }
 }

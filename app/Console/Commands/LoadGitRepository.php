@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Commit;
+use App\Models\Post;
 use App\Services\AI\GoogleAIService;
 use App\Services\AI\OpenAIService;
 use Gitonomy\Git\Admin;
@@ -54,7 +55,7 @@ class LoadGitRepository extends Command
             $commitChanges = $this->getCommitChanges($commit->getHash(), $gitRootDir);
             $issues = $openAIService->findIssues($commitChanges);
 
-            Commit::create([
+            $commit_model = Commit::create([
                 'author_name' => $commit->getAuthorName(),
                 'author_email' => $commit->getAuthorEmail(),
                 'title' => $parsedTitleAndSummary['title'],
@@ -68,6 +69,12 @@ class LoadGitRepository extends Command
                 'committed_at' => $commit->getAuthorDate(),
                 'change' => $commitChanges,
             ]);
+            $post = new Post();
+            $post->title = 'Your Title';
+            $post->content = 'Your Content';
+            $post->commit_id = $commit_model->id;
+            $post->save();
+
         }
 
         $this->removeDirectory($gitRootDir);
