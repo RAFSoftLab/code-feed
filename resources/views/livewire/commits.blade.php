@@ -15,7 +15,15 @@
                                            href="{{'https://github.com/'.$commit->organization.'/'.$commit->repository.'/commit/'.$commit->hash}}">{{$commit->title}}</a>
                                     </p>
                                     <p class="summary">{{ \Illuminate\Support\Str::limit($commit->summary, 300) }}</p>
-                                    <span class="time">{{date('d-m-Y-H-i-s', $commit->createdAt)}}</span>
+                                    <div class="details">
+                                        <span class="time">{{date('d-m-Y-H-i-s', $commit->createdAt)}}</span>
+                                        @if($commit->hasBugs)
+                                            <span class="label red">BUGS</span>
+                                        @endif
+                                        @if($commit->hasSecurityIssues)
+                                            <span class="label red">SECURITY</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -25,4 +33,3 @@
         </div>
     </div>
 </div>
-

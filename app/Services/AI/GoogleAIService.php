@@ -39,8 +39,8 @@ class GoogleAIService implements LLMService
                     ),
                     new TextPart($commit)
             )->text();
-        } catch (ClientExceptionInterface $e) {
-            var_dump($e->getMessage());
+        } catch (\Exception $e) {
+            echo ($e->getMessage());
         }
 
         return match ($result) {

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Commit;
+use App\Services\AI\GoogleAIService;
 use App\Services\AI\OpenAIService;
 use Gitonomy\Git\Admin;
 use Gitonomy\Git\Diff\FileChange;
@@ -16,7 +17,7 @@ class LoadGitRepository extends Command
      *
      * @var string
      */
-    protected $signature = 'app:load-git-repository';
+    protected $signature = 'app:load-git-repository {githubRepository=https://github.com/RAFSoftLab/code-feed-test-repo.git}';
 
     /**
      * The console command description.
@@ -28,27 +29,26 @@ class LoadGitRepository extends Command
     /**
      * Execute the console command.
      */
-    public function handle(OpenAIService $openAIService): void
+    public function handle(GoogleAIService $openAIService): void
     {
-        $arguments = $this->arguments();
-        if (empty($githubRepository))
-            $githubRepository = 'https://github.com/RAFSoftLab/code-feed-test-repo.git';
-        else
-            $githubRepository = $arguments[0];
-
+        $githubRepository = $this->argument('githubRepository');
         $gitRootDir = $this->generateTmpDir();
 
         $repository = Admin::cloneTo($gitRootDir, $githubRepository, false);
         $log = $repository->getLog();
         $commits = $log->getCommits();
 
-        Commit::truncate();
         // pattern for ssh links
         // $pattern = '/:(.*)\/(.*).git/';
         // preg_match($pattern, $githubRepository, $matches);
         preg_match('~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~', $githubRepository, $matches);
         $organizationName = $matches[1];
         $repositoryName = $matches[2];
+
+        Commit::where('organization', $organizationName)
+            ->where('repository', $repositoryName)
+            ->delete();
+
         foreach ($commits as $commit) {
             $parsedTitleAndSummary = $this->parseTitleAndSummary($commit->getMessage());
             $commitChanges = $this->getCommitChanges($commit->getHash(), $gitRootDir);

@@ -32,11 +32,6 @@
     flex-grow: 1;
 }
 
-.time {
-    color: #888;
-    font-size: 12px;
-}
-
 .post-link {
     text-decoration: none;
     color: black; /* Black color for normal links */
@@ -52,4 +47,39 @@
 
 .post-link:active {
     color: #888; /* Grey color when link is clicked */
+}
+
+
+.label {
+    font-size: 10px; /* Adjust font size for labels */
+    padding: 2px 6px; /* Adjust padding for labels */
+    border-radius: 4px;
+    margin-right: 5px; /* Adjust margin between labels */
+}
+
+.red {
+    background-color: #ff5f5f;
+    color: white;
+}
+
+.blue {
+    background-color: #5f5fff;
+    color: white;
+}
+
+.green {
+    background-color: #5fff5f;
+    color: white;
+}
+
+.time {
+    font-size: 12px; /* Adjust font size for date */
+    color: #888; /* Adjust color for date */
+    display: inline-block; /* Ensure date stays on the same line as labels */
+    vertical-align: middle; /* Align date vertically with labels */
+    margin-top: 5px; /* Adjust margin between link and date */
+}
+
+.details {
+    margin-top: 5px; /* Adjust margin between summary and details */
 }
