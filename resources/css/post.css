@@ -1,0 +1,38 @@
+.post-feed-item {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.post-title {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.post-content {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.post-meta {
+    font-size: 12px;
+    color: #ccc;
+    text-align: left;
+    margin-top: 10px; /* Add some space above the meta */
+}
+
+.post-created-at {
+    font-weight: bold;
+}

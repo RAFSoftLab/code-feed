@@ -5,9 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Commit;
 use App\Models\Post;
 use App\Services\AI\GoogleAIService;
-use App\Services\AI\OpenAIService;
 use Gitonomy\Git\Admin;
-use Gitonomy\Git\Diff\FileChange;
 use Gitonomy\Git\Tree;
 use Illuminate\Console\Command;
 
@@ -30,7 +28,7 @@ class LoadGitRepository extends Command
     /**
      * Execute the console command.
      */
-    public function handle(GoogleAIService $openAIService): void
+    public function handle(GoogleAIService $aiService): void
     {
         $githubRepository = $this->argument('githubRepository');
         $gitRootDir = $this->generateTmpDir();
@@ -53,9 +51,9 @@ class LoadGitRepository extends Command
         foreach ($commits as $commit) {
             $parsedTitleAndSummary = $this->parseTitleAndSummary($commit->getMessage());
             $commitChanges = $this->getCommitChanges($commit->getHash(), $gitRootDir);
-            $issues = $openAIService->findIssues($commitChanges);
+            $issues = $aiService->findIssues($commitChanges);
 
-            $commit_model = Commit::create([
+            $commitModel = Commit::create([
                 'author_name' => $commit->getAuthorName(),
                 'author_email' => $commit->getAuthorEmail(),
                 'title' => $parsedTitleAndSummary['title'],
@@ -69,35 +67,28 @@ class LoadGitRepository extends Command
                 'committed_at' => $commit->getAuthorDate(),
                 'change' => $commitChanges,
             ]);
-            $post = new Post();
-            $post->title = 'Your Title';
-            $post->content = 'Your Content';
-            $post->commit_id = $commit_model->id;
-            $post->save();
-
+            $this->createPosts($commitModel, $aiService);
         }
 
         $this->removeDirectory($gitRootDir);
+    }
+
+    private function createPosts(Commit $commit, GoogleAIService $aiService): void
+    {
+        $summaries = $aiService->summarize($commit);
+        foreach ($summaries as $summary) {
+            $post = new Post();
+            $post->title = 'Update!';
+            $post->content = $summary;
+            $post->commit_id = $commit->id;
+            $post->save();
+        }
     }
 
     private function getCommitChanges(string $commitHash, $gitDirectory): string
     {
         exec("cd $gitDirectory && git --no-pager show $commitHash", $output);
         return implode("\n", $output);
-    }
-
-    function displayTree(Tree $tree, int $indent = 0): void
-    {
-        $indent_str = str_repeat(' ', $indent);
-        foreach ($tree->getEntries() as $name => $data) {
-            list($mode, $entry) = $data;
-            if ($entry instanceof Tree) {
-                echo $indent_str.$name.'/'.PHP_EOL;
-                $this->displayTree($tree, $indent + 1);
-            } else {
-                echo $indent_str.$name.PHP_EOL;
-            }
-        }
     }
 
     private function parseTitleAndSummary(string $commitMessage): array

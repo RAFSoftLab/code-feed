@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Commit::class);
         });
         Schema::table('commits', function (Blueprint $table) {
-            $table->foreignIdFor(Post::class);
+            $table->foreignIdFor(Post::class)->nullable()->onDelete('cascade');
         });
     }
 

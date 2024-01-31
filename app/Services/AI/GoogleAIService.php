@@ -76,4 +76,36 @@ class GoogleAIService implements LLMService
 
         return $result;
     }
+
+    public function summarize(mixed $commit): array
+    {
+        $result = 'No response from Google';
+
+        $generationConfig = (new GenerationConfig())
+            ->withTemperature(0);
+        try {
+            $result = $this->client->geminiPro()
+                ->withGenerationConfig($generationConfig)
+                ->generateContent(
+                    new TextPart(
+                        <<<TEXT
+                        You are an expert coder. Write a summary of what was done in the code commit provided.
+                        Use maximum 3 bullet points to explain what was done. 
+                        Do not write any text before or after the bullet points.
+                        TEXT
+                    ),
+                    new TextPart($commit)
+                )->text();
+        } catch (Exception $e) {
+            echo ($e->getMessage());
+        }
+
+        print ($result.PHP_EOL);
+
+        $lines = explode("\n", $result);
+        // $cleanedLines now contains the array without hyphens.
+        return array_map(function($line) {
+            return ltrim($line, '- ');
+        }, $lines);
+    }
 }

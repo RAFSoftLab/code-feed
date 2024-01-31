@@ -29,7 +29,16 @@ class Commit extends Model
         'change'
     ];
 
-    public function comments(): HasMany
+    /**
+     * Get the GitHub avatar URL from the author.
+     *
+     * @return string|null The GitHub avatar URL or null if not found.
+     */
+    public function getGithubAvatarUrl(GithubService $service): ?string
+    {
+        return $service->loadAvatar($this->author_email);
+    }
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
