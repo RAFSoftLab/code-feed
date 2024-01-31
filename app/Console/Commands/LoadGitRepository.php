@@ -66,6 +66,7 @@ class LoadGitRepository extends Command
                 'hash' => $commit->getHash(),
                 'created_at' => $commit->getAuthorDate(),
                 'committed_at' => $commit->getAuthorDate(),
+                'change' => $commitChanges,
             ]);
         }
 

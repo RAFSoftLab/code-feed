@@ -24,7 +24,8 @@ class Commit extends Model
         'committer',
         'created_at',
         'committed_at',
-        'organization'
+        'organization',
+        'change'
     ];
 
     /**

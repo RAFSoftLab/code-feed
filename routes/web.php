@@ -2,6 +2,7 @@
 
 use App\Livewire\CommitFeed;
 use App\Livewire\RepositorySelector;
+use App\Livewire\ShowCommit;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +21,5 @@ Route::get('/', function () {
 });
 
 Route::get('commits/{organization}/{repository}', CommitFeed::class);
+Route::get('commits/{hash}', ShowCommit::class);
 Route::get('repository-selector', RepositorySelector::class);

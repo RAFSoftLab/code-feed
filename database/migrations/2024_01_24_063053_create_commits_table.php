@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('hash');
             $table->integer('created_at');
             $table->integer('committed_at')->nullable();
+            $table->longText('change')->nullable();
         });
     }
 

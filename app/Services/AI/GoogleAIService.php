@@ -2,6 +2,7 @@
 
 namespace App\Services\AI;
 
+use Exception;
 use GeminiAPI\Client;
 use GeminiAPI\Enums\Role;
 use GeminiAPI\GenerationConfig;
@@ -49,5 +50,30 @@ class GoogleAIService implements LLMService
             'hasSecurityIssues' => ['hasBugs' => false, 'hasSecurityIssues' => true],
             default => ['hasBugs' => false, 'hasSecurityIssues' => false],
         };
+    }
+
+    public function explain(string $commit): string
+    {
+        $result = 'No response from Google';
+
+        $generationConfig = (new GenerationConfig())
+            ->withTemperature(0);
+        try {
+            $result = $this->client->geminiPro()
+                ->withGenerationConfig($generationConfig)
+                ->generateContent(
+                    new TextPart(
+                        <<<TEXT
+                        You are cyber-security and coding expert.
+                        Try to find any bugs or security issues in the following commit and explain them.
+                        TEXT
+                    ),
+                    new TextPart($commit)
+                )->text();
+        } catch (Exception $e) {
+            echo ($e->getMessage());
+        }
+
+        return $result;
     }
 }

@@ -16,13 +16,13 @@
                                     </p>
                                     <p class="summary">{{ \Illuminate\Support\Str::limit($commit->summary, 300) }}</p>
                                     <div class="details">
-                                        <span class="time">{{date('d-m-Y-H-i-s', $commit->createdAt)}}</span>
                                         @if($commit->hasBugs)
-                                            <span class="label red">BUGS</span>
+                                            <a href="{{"/commits/".$commit->hash}}" class="label red">BUGS</a>
                                         @endif
                                         @if($commit->hasSecurityIssues)
-                                            <span class="label red">SECURITY</span>
+                                            <a href="{{"/commits/".$commit->hash}}" class="label red">SECURITY</a>
                                         @endif
+                                        <span class="time">{{date('d-m-Y-H-i-s', $commit->createdAt)}}</span>
                                     </div>
                                 </div>
                             </div>

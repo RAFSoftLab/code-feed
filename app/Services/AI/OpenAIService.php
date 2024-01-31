@@ -41,4 +41,10 @@ class OpenAIService implements LLMService
             default => ['hasBugs' => false, 'hasSecurityIssues' => false],
         };
     }
+
+    public function explain(string $commit): string
+    {
+        // TODO: Implement explain() method.
+        return '';
+    }
 }
