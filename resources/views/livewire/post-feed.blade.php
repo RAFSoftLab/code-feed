@@ -2,7 +2,9 @@
     @foreach ($posts as $post)
         <div class="post-feed-item">
             <h2 class="post-title">
-                {{ $post->title }}
+                <a href="/{{$post->commit->organization}}/{{$post->commit->repository}}/commits/{{$post->commit->hash}}" class="post-link">
+                    {{ $post->title }}
+                </a>
             </h2>
 
             <div class="post-content">

@@ -10,11 +10,15 @@ use Livewire\Component;
 
 class ShowCommit extends Component
 {
-
+    public string $organization;
+    public string $repository;
     private string $hash;
 
-    public function mount(string $hash): void
+
+    public function mount(string $organization, string $repository, string $hash        ): void
     {
+        $this->organization = $organization;
+        $this->repository = $repository;
         $this->hash = $hash;
     }
 

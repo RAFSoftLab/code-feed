@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    public function post(): BelongsTo
+    public function commit(): BelongsTo
     {
         return $this->belongsTo(Commit::class);
     }

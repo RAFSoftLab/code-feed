@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::get('repository-selector', RepositorySelector::class);
 
 Route::get('/{organization}/{repository}/commits', CommitFeed::class);
-Route::get('commits/{hash}', ShowCommit::class);
+Route::get('/{organization}/{repository}/commits/{hash}', ShowCommit::class);
 
 Route::get('/post-feed', PostFeed::class);
 Route::get('/{organization}/{repository}/post-feed', PostFeed::class);

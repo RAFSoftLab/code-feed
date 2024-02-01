@@ -22,10 +22,11 @@ class PostFeed extends Component
         $commits = Commit::where('organization', $this->organization)
             ->where('repository', $this->repository)
             ->with('posts')
+            ->with('posts.commit')
             ->get();
-        $posts = $commits->pluck('post');
+        $posts = $commits->pluck('posts')->flatten();
 
         return view('livewire.post-feed')
-            ->with('posts', Post::all());
+            ->with('posts', $posts);
     }
 }
