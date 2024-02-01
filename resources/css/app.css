@@ -38,7 +38,7 @@
 }
 
 .post-link:visited {
-    color: #666; /* Dark gray color for visited links */
+    color: black; /* Dark gray color for visited links */
 }
 
 .post-link:hover {

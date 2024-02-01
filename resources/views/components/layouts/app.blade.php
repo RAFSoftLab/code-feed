@@ -9,6 +9,8 @@
         @vite('resources/css/post.css')
     </head>
     <body>
+    <x-turbine-ui-container variant="primary">
         {{ $slot }}
+    </x-turbine-ui-container>
     </body>
 </html>

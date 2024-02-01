@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Commit;
 use App\Models\Post;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 class PostFeed extends Component
@@ -17,6 +18,7 @@ class PostFeed extends Component
         $this->repository = $repository;
     }
 
+    #[Title('CodeFeed')]
     public function render()
     {
         $commits = Commit::where('organization', $this->organization)

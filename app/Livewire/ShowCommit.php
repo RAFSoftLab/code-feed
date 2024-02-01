@@ -15,7 +15,7 @@ class ShowCommit extends Component
     private string $hash;
 
 
-    public function mount(string $organization, string $repository, string $hash        ): void
+    public function mount(string $organization, string $repository, string $hash): void
     {
         $this->organization = $organization;
         $this->repository = $repository;

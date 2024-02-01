@@ -17,10 +17,10 @@
                                     <p class="summary">{{ \Illuminate\Support\Str::limit($commit->summary, 300) }}</p>
                                     <div class="details">
                                         @if($commit->hasBugs)
-                                            <a href="{{"/commits/".$commit->hash}}" class="label red">BUGS</a>
+                                            <a href="/{{$commit->organization}}/{{$commit->repository}}/commits/{{$commit->hash}}" class="label red">BUGS</a>
                                         @endif
                                         @if($commit->hasSecurityIssues)
-                                            <a href="{{"/commits/".$commit->hash}}" class="label red">SECURITY</a>
+                                                <a href="/{{$commit->organization}}/{{$commit->repository}}/commits/{{$commit->hash}}" class="label red">SECURITY</a>
                                         @endif
                                         <span class="time">{{date('d-m-Y-H-i-s', $commit->createdAt)}}</span>
                                     </div>
