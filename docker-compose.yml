@@ -34,7 +34,7 @@ services:
             "composer install &&
             php artisan migrate &&
             echo -e \"Setup done\"  "
-    cloud-city-nginx:
+    code-feed-nginx:
         depends_on:
             - code-feed-setup
         image: nginx:1.23.0
