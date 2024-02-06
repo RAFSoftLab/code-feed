@@ -10,7 +10,6 @@ class GoogleAIServiceTest extends TestCase
 // findIssues method returns correct array based on input commit
     public function test_find_issues_no_issues()
     {
-        // Arrange
         $googleAIService = resolve(GoogleAIService::class);
         $commit =
             <<<TEXT
@@ -41,7 +40,6 @@ class GoogleAIServiceTest extends TestCase
 
     public function test_find_issues_found_issues()
     {
-        // Arrange
         $googleAIService = resolve(GoogleAIService::class);
         $commit =
             <<<TEXT
@@ -78,7 +76,6 @@ class GoogleAIServiceTest extends TestCase
 
     public function test_find_issues_found_bugs_only()
     {
-        // Arrange
         $googleAIService = resolve(GoogleAIService::class);
         $commit =
             <<<TEXT
