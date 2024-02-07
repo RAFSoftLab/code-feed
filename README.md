@@ -6,6 +6,10 @@ Code Feed is a tool that helps teams that are want to use non-blocking pull requ
 
 
 # Running locally
+## Requirements
+1. PHP 8+
+2. Composer 2.6+
+3. Docker
 ## 1. Build container
 ```bash
 docker compose up -d

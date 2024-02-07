@@ -47,4 +47,9 @@ class OpenAIService implements LLMService
         // TODO: Implement explain() method.
         return '';
     }
+
+    public function summarize(mixed $commit): array
+    {
+        // TODO: Implement summarize() method.
+    }
 }
