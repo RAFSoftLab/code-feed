@@ -16,7 +16,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql zip
 
+# Check whether .env is existing and create if not.
+RUN if [ -f .env ]; then cp .env.example .env; fi
 COPY . /var/www/html
+
 
 WORKDIR /var/www/html
 
