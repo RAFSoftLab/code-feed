@@ -1,31 +1,10 @@
-version: "3.7"
+version: '3.8'
+
 services:
   app:
     build:
-      args:
-        user: code-feed
-        uid: 1000
-      context: ./
+      context: .
       dockerfile: Dockerfile
-    image: code-feed
-    container_name: code-feed
-    restart: unless-stopped
-    working_dir: /var/www/
-    volumes:
-      - ./:/var/www
-    networks:
-      - code-feed-network
-  nginx:
-    image: nginx:alpine
-    container_name: nginx-code-feed
-    restart: unless-stopped
+    image: code-feed:latest
     ports:
-      - "8000:80"
-    volumes:
-      - ./:/var/www
-      - ./docker-compose/nginx:/etc/nginx/conf.d/
-    networks:
-      - code-feed-network
-networks:
-  code-feed-network:
-    driver: bridge
+      - "8000:8000"

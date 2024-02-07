@@ -1,17 +1,31 @@
-FROM php:8.2-fpm
-ARG user
-ARG uid
-RUN apt update && apt install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev
-RUN apt clean && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
-WORKDIR /var/www
-USER $user
+FROM php:8.1.0-fpm
+
+# Install Additional System Dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    zip \
+    npm
+
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql zip
+
+COPY . /var/www/html
+
+WORKDIR /var/www/html
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install project dependencies
+RUN composer install
+RUN touch database/database.sqlite
+RUN php artisan migrate
+
+RUN npm install
+RUN npm run build
+CMD php artisan serve --host 0.0.0.0
