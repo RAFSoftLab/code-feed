@@ -17,7 +17,7 @@ class LoadGitRepository extends Command
      *
      * @var string
      */
-    protected $signature = 'app:load-git-repository {githubRepository=https://github.com/RAFSoftLab/code-feed-test-repo.git}';
+    protected $signature = 'app:load-git-repository {githubRepository=https://github.com/RAFSoftLab/code-Feed-test-repo.git}';
 
     /**
      * The console command description.
@@ -59,6 +59,7 @@ class LoadGitRepository extends Command
                 'author_email' => $commit->getAuthorEmail(),
                 'title' => $parsedTitleAndSummary['title'],
                 'summary' => $parsedTitleAndSummary['summary'],
+                'lineCount' => substr_count($commitChanges, "\n") + 1,
                 'repository' => $repositoryName,
                 'organization' => $organizationName,
                 'hasSecurityIssues' => $issues['hasSecurityIssues'],

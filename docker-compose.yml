@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: code-feed:latest
-    container_name: code-feed-web
+    container_name: code-Feed-web
     ports:
       - "8000:8000"
       - "5173:5173"

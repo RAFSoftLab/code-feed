@@ -29,8 +29,8 @@ class GoogleAIServiceTest extends TestCase
                 --- /dev/null
                 +++ b/README.md
                 @@ -0,0 +1,2 @@
-                +# code-feed-test-repo
-                +Repository used to test code-feed
+                +# code-Feed-test-repo
+                +Repository used to test code-Feed
             TEXT;
 
         $result = $googleAIService->findIssues($commit);

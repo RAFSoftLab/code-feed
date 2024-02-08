@@ -17,6 +17,7 @@ class Commit extends Model
         'title',
         'summary',
         'repository',
+        'lineCount',
         'hasSecurityIssues',
         'hasBugs',
         'hash',

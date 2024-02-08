@@ -19,6 +19,14 @@
                   {{ $post->commit->created_at->diffForHumans()}}
                 </span>
             </div>
+            <div class="details">
+                @if($post->commit->hasBugs)
+                    <span class="label red">BUGS</span>
+                @endif
+                @if($post->commit->hasSecurityIssues)
+                        <span class="label red">SECURITY</span>
+                @endif
+            </div>
         </div>
     @endforeach
 </div>

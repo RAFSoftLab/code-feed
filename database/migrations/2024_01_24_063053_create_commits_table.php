@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('author_email');
             $table->string('title');
             $table->string('summary');
+            $table->integer('lineCount');
             $table->string('repository');
             $table->string('organization');
             $table->boolean('hasSecurityIssues');

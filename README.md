@@ -24,7 +24,7 @@ When editing the code, it will automatically refresh the web page.
 ## 4. Load repository
 To load a repository from GitHub, run 
 ```bash
-docker exec -it code-feed-web php artisan app:load-git-repository repository_url
+docker exec -it code-Feed-web php artisan app:load-git-repository repository_url
 ```
  - repository_url: https link such as https://github.com/RAFSoftLab/code-feed-test-repo.git
 ## Running without docker

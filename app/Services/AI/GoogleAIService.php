@@ -79,7 +79,7 @@ class GoogleAIService implements LLMService
 
     public function summarize(mixed $commit): array
     {
-        $result = 'No response from Google';
+        $result = '';
 
         $generationConfig = (new GenerationConfig())
             ->withTemperature(0);

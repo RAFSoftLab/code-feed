@@ -29,7 +29,7 @@ class PostFeed extends Component
             ->get();
         $posts = $commits->pluck('posts')->flatten();
 
-        return view('livewire.post-feed')
+        return view('livewire.code-feed')
             ->with('posts', $posts);
     }
 }
