@@ -1,8 +1,9 @@
 <?php
 namespace App\Services\Feed;
 
-use App\Models\Commit;
+use App\Models\Post;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class FeedService
 {
@@ -10,19 +11,17 @@ class FeedService
     const WEIGHT_BOTH_FLAGS = 3;
     const WEIGHT_ONE_FLAG = 2;
     const WEIGHT_LENGTH = 1;
-    const TIME_DECAY_FACTOR = 0.9; // Controls time decay
+    const MAX_TIME_DECAY_FACTOR = 0.99; // Maximum time decay factor
+    const MAX_HOUR_DIFFERENCE = 24 * 365; // Maximum time difference in hours (1 year)
 
-    public function getFeed()
+    public function getFeed(): Collection
     {
-        $commits = Commit::with('posts')
-            ->with('posts.commit')
-            ->get();
-        $posts = $commits->pluck('posts')->flatten();
+        $posts = Post::with('commit')->get();
 
         return $this->rankPosts($posts);
     }
 
-    private function rankPosts($posts): Collection
+    private function rankPosts(Collection $posts): Collection
     {
         // Define ranking function for each commit
         $rankFunction = function ($post) {
@@ -30,20 +29,27 @@ class FeedService
 
             // Check for both flags true
             if ($post->commit->hasBugs && $post->commit->hasSecurityIssues) {
-                $score += $this::WEIGHT_BOTH_FLAGS;
+                $score += self::WEIGHT_BOTH_FLAGS;
             } else if ($post->commit->hasBugs || $post->commit->hasSecurityIssues) {
-                $score += $this::WEIGHT_ONE_FLAG;
+                $score += self::WEIGHT_ONE_FLAG;
             }
 
             // Add score based on length
-            $score += $this::WEIGHT_LENGTH * $post->commit->lineCount;
+            $score += self::WEIGHT_LENGTH * $post->commit->lineCount;
 
-            // Apply time decay based on creation time (use DateTime if available)
-            $currentTime = time();
-            $timeDelta = $currentTime - strtotime($post->commit->created_at);
-            $score *= pow($this::TIME_DECAY_FACTOR, $timeDelta);
+            // Apply time decay based on Carbon dates
+            $now = Carbon::now();
+            $postCreatedAt = Carbon::parse($post->commit->created_at);
+            $hourDelta = $now->diffInHours($postCreatedAt);
 
-            return $score;
+            // Limit hour difference and calculate decay factor
+            $limitedHourDelta = min($hourDelta, self::MAX_HOUR_DIFFERENCE);
+            $decayFactor = pow(self::MAX_TIME_DECAY_FACTOR, $limitedHourDelta);
+
+            $score *= $decayFactor;
+            // Ensure a minimum score of 0.1
+
+            return max($score, 0.1);
         };
 
         // Sort commits by decreasing rank score
