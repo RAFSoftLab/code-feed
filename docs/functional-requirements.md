@@ -1,19 +1,19 @@
 # Functional Requirements
 ## Proof of Concept
 ### 1. GIT
- - FR 1.1 Load git repository from web.
- - FR 1.2 Load the complete git history.
- - FR 1.3 Display each commit from history.
- - FR 1.4 Display the list of issues in each commit.
- - FR 1.5 Load new commits as they are created.
- - FR 1.6 Open GitHub commit view for each commit.
+ - FR 1.1 [x] Load git repository from web.
+ - FR 1.2 [x] Load the complete git history.
+ - FR 1.3 [x] Display each commit from history.
+ - FR 1.4 [x] Display the list of issues in each commit.
+ - FR 1.5 [x] Load new commits as they are created.
+ - FR 1.6 [x] Open GitHub commit view for each commit.
 ### 2. News(Code)Feed
- - FR 2.1 For each loaded commit, generate a few newsfeed posts that explain what was done.
- - FR 2.2 Apply ranking algorithm to each post.
- - FR 2.3 Display each post in sorted order according to the ranking algorithm.
+ - FR 2.1 [x] For each loaded commit, generate a few newsfeed posts that explain what was done.
+ - FR 2.2 [x] Apply ranking algorithm to each post.
+ - FR 2.3 [x] Display each post in sorted order according to the ranking algorithm.
 ### 3. Commit Analysis
- - FR 3.1 Use LLM to infer the summary of each commit.
- - FR 3.2 Use LLM to infer bugs and security issues in each commit.
+ - FR 3.1 [x] Use LLM to infer the summary of each commit.
+ - FR 3.2 [x] Use LLM to infer bugs and security issues in each commit.
 
 ## MVP
 ### 1. GIT

@@ -20,7 +20,6 @@ RUN docker-php-ext-install pdo_mysql zip
 RUN if [ -f .env ]; then cp .env.example .env; fi
 COPY . /var/www/html
 
-
 WORKDIR /var/www/html
 
 RUN chmod -R 777 storage
