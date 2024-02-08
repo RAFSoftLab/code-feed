@@ -5,7 +5,7 @@
  - [x] FR 1.2  Load the complete git history.
  - [x] FR 1.3 Display each commit from history.
  - [x] FR 1.4 Display the list of issues in each commit.
- - [x] FR 1.5 Load new commits as they are created.
+ - [ ] FR 1.5 Load new commits as they are created.
  - [x] FR 1.6 Open GitHub commit view for each commit.
 ### 2. News(Code)Feed
  - [x] FR 2.1 For each loaded commit, generate a few newsfeed posts that explain what was done.
