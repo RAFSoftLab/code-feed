@@ -9,6 +9,7 @@
 }
 
 .avatar {
+    align-self: flex-start;
     flex-shrink: 0; /* Prevent shrinking of the avatar */
 }
 
