@@ -27,7 +27,19 @@ To load a repository from GitHub, run
 docker exec -it code-feed-web php artisan app:load-git-repository repository_url
 ```
  - repository_url: https link such as https://github.com/RAFSoftLab/code-feed-test-repo.git
-
+## Running without docker
+```bash
+sudo chmod -R 777 storage
+```
+First time to fix the storage permissions.
+```bash
+php artisan serve
+```
+to run the server.
+```bash
+npm run dev
+```
+When editing the code, it will automatically refresh the web page.
 ## Documentation
  - [Functional Requirements](docs/functional-requirements.md)
  - [Sequence diagrams](docs/sequence-diagrams.md)

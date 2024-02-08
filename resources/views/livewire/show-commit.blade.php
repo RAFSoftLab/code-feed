@@ -1,14 +1,14 @@
 <div>
-    <x-turbine-ui-code
-        style="white-space: pre-wrap;"
+    <x-turbine-ui-container
+        class="whitespace-normal"
         variant="primary"
     >
-    {!!$commit->change!!}
-    </x-turbine-ui-code>
-    <x-turbine-ui-code
-        style="white-space: pre-wrap;"
+    {!!nl2br(e($commit->change))!!}
+    </x-turbine-ui-container>
+    <x-turbine-ui-container
+        class="whitespace-normal"
         variant="warning"
     >
-        {!!$explanation#!!}
-    </x-turbine-ui-code>
+        {!!nl2br(e($explanation))!!}
+    </x-turbine-ui-container>
 </div>

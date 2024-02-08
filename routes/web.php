@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\CodeFeed;
 use App\Livewire\CommitFeed;
 use App\Livewire\PostFeed;
 use App\Livewire\RepositorySelector;
@@ -18,10 +19,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('repository-selector');
+    return redirect('/feed');
 });
 
-Route::get('repository-selector', RepositorySelector::class);
+Route::get('/repository-selector', RepositorySelector::class);
 
 Route::get('/{organization}/{repository}/commits', CommitFeed::class);
 Route::get('/{organization}/{repository}/commits/{hash}', ShowCommit::class);
@@ -29,3 +30,4 @@ Route::get('/{organization}/{repository}/commits/{hash}', ShowCommit::class);
 Route::get('/post-feed', PostFeed::class);
 Route::get('/{organization}/{repository}/post-feed', PostFeed::class);
 
+Route::get('/feed',CodeFeed::class);

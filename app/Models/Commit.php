@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Commit extends Model
 {
-    public $timestamps = false;
-
     use HasFactory;
 
     protected $fillable = [

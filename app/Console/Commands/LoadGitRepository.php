@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Commit;
 use App\Models\Post;
 use App\Services\AI\GoogleAIService;
+use Carbon\Carbon;
 use Gitonomy\Git\Admin;
 use Gitonomy\Git\Tree;
 use Illuminate\Console\Command;
@@ -63,7 +64,7 @@ class LoadGitRepository extends Command
                 'hasSecurityIssues' => $issues['hasSecurityIssues'],
                 'hasBugs' => $issues['hasBugs'],
                 'hash' => $commit->getHash(),
-                'created_at' => $commit->getAuthorDate(),
+                'created_at' => Carbon::create($commit->getAuthorDate()),
                 'committed_at' => $commit->getAuthorDate(),
                 'change' => $commitChanges,
             ]);
@@ -78,7 +79,7 @@ class LoadGitRepository extends Command
         $summaries = $aiService->summarize($commit);
         foreach ($summaries as $summary) {
             $post = new Post();
-            $post->title = 'Update!';
+            $post->title = 'Commit!';
             $post->content = $summary;
             $post->commit_id = $commit->id;
             $post->save();

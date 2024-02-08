@@ -9,8 +9,18 @@
         @vite('resources/css/post.css')
     </head>
     <body>
-    <x-turbine-ui-container variant="primary">
-        {{ $slot }}
+    <x-turbine-ui-container variant="primary" size="full">
+        <div class="flex">
+            <div class="w-1/5  h-screen">
+                <ul>
+                    <li><x-turbine-ui-link href="/">CodeFeed</x-turbine-ui-link ></li>
+                    <li><x-turbine-ui-link href="/repository-selector">Repositories</x-turbine-ui-link ></li>
+                </ul>
+            </div>
+            <div class="w-4/5">
+                {{ $slot }}
+            </div>
+        </div>
     </x-turbine-ui-container>
     </body>
 </html>

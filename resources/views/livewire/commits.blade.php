@@ -22,7 +22,7 @@
                                         @if($commit->hasSecurityIssues)
                                                 <a href="/{{$commit->organization}}/{{$commit->repository}}/commits/{{$commit->hash}}" class="label red">SECURITY</a>
                                         @endif
-                                        <span class="time">{{date('d-m-Y-H-i-s', $commit->createdAt)}}</span>
+                                        <span class="time">{{$commit->created_at->diffForHumans()}}</span>
                                     </div>
                                 </div>
                             </div>

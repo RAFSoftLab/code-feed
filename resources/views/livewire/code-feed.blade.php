@@ -13,6 +13,9 @@
 
             <div class="post-meta">
                 <span class="post-created-at">
+                  {{ $post->commit->organization }}/{{ $post->commit->repository }}
+                </span>
+                <span class="post-created-at">
                   {{ $post->commit->created_at->diffForHumans()}}
                 </span>
             </div>
