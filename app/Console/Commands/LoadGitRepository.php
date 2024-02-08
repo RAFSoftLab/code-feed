@@ -77,10 +77,13 @@ class LoadGitRepository extends Command
 
     private function createPosts(Commit $commit, GoogleAIService $aiService): void
     {
-        $summaries = $aiService->summarize($commit);
+        if (empty($commit->summary))
+            $summaries = $aiService->summarize($commit);
+        else $summaries = array();
+
         foreach ($summaries as $summary) {
             $post = new Post();
-            $post->title = 'Commit!';
+            $post->title = '';
             $post->content = $summary;
             $post->commit_id = $commit->id;
             $post->save();

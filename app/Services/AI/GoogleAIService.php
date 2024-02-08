@@ -90,8 +90,8 @@ class GoogleAIService implements LLMService
                     new TextPart(
                         <<<TEXT
                         You are an expert coder. Write a summary of what was done in the code commit provided.
-                        Use maximum 3 bullet points to explain what was done. 
-                        Do not write any text before or after the bullet points.
+                        It should also contain maximum 3 bullet points explaining what was done.
+                        Do not include author name in the summary.
                         TEXT
                     ),
                     new TextPart($commit)
@@ -102,10 +102,6 @@ class GoogleAIService implements LLMService
 
         print ($result.PHP_EOL);
 
-        $lines = explode("\n", $result);
-        // $cleanedLines now contains the array without hyphens.
-        return array_map(function($line) {
-            return ltrim($line, '- ');
-        }, $lines);
+        return array($result);
     }
 }

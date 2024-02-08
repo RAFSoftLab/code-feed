@@ -21,6 +21,7 @@
 ### 2. News(Code)Feed
  - FR 2.1 Create posts that convey that somebody changed user's code.
  - FR 2.2 Create posts that say that somebody removed user's code.
+ - FR 2.3 Personalize news feed for the current user.
  - Implement "endless" scrolling in CodeFeed UI.
 ### 3. Commit Analysis
  - FR 3.1 FR 2.3 Find additional features for ranking:
@@ -31,3 +32,5 @@
  - FR 3.2 Use LLM to infer bugs and security issues in each commit.
 ### 4. Task Management
  - Implement task assignment directly from the CodeFeed UI.
+### 5. User management
+ - FR 5.1 Implement user login and registration.

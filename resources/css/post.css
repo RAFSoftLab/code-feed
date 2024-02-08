@@ -31,6 +31,9 @@
     color: #ccc;
     text-align: left;
     margin-top: 10px; /* Add some space above the meta */
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .post-created-at {
