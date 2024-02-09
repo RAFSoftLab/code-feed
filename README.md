@@ -33,15 +33,27 @@ sudo chmod -R 777 storage
 ```
 First time to fix the storage permissions.
 ```bash
+composer install
+```
+To install PHP dependencies.
+```bash
+npm install
+```
+To install JS dependencies.
+```bash
+php artisan migrate
+```
+To initialize the DB schema.
+```bash
 php artisan serve
 ```
-to run the server.
+To run the server.
 ```bash
 npm run dev
 ```
 When editing the code, it will automatically refresh the web page.
 ## Documentation
- - [Functional Requirements](docs/functional-requirements.md)
+ - [Requirements](docs/requirements)
  - [Sequence diagrams](docs/sequence-diagrams.md)
  - [Prompt engineering](docs/prompt-engineering.md)
  - [Kanban Board](https://github.com/orgs/RAFSoftLab/projects/5)

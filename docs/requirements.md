@@ -1,5 +1,5 @@
-# Functional Requirements
-## Proof of Concept
+# Proof of Concept
+## Functional Requirements
 ### 1. GIT
  - [x] FR 1.1 Load git repository from web.
  - [x] FR 1.2  Load the complete git history.
@@ -7,6 +7,7 @@
  - [x] FR 1.4 Display the list of issues in each commit.
  - [ ] FR 1.5 Load new commits as they are created.
  - [x] FR 1.6 Open GitHub commit view for each commit.
+ - [ ] FR 1.7 Load code from private repositories.
 ### 2. News(Code)Feed
  - [x] FR 2.1 For each loaded commit, generate a few newsfeed posts that explain what was done.
  - [x] FR 2.2 Apply ranking algorithm to each post.
@@ -14,8 +15,16 @@
 ### 3. Commit Analysis
  - [x] FR 3.1 Use LLM to infer the summary of each commit.
  - [x] FR 3.2 Use LLM to infer bugs and security issues in each commit.
+### 4. User management
+ - [ ] FR 4.1 Implement user login and registration.
+ - [ ] FR 4.2 Allow login using GitHub account.
+ - [ ] FR 4.2 Load repositories under the logged-in user. Only that user should see the feed from those repositories.
+## Non-functional requirements
+### 1. LLM
+ - [ ] NFR 1.1 Use locally hosted LLM model in order not to leak code to 
 
-## MVP
+# MVP
+## Functional Requirements
 ### 1. GIT
  - [ ] FR 1.1 For a commit, find code that was changed by it and load authors.
 ### 2. News(Code)Feed
@@ -32,5 +41,3 @@
  - [ ]  3.2 Use LLM to infer bugs and security issues in each commit.
 ### 4. Task Management
  - [ ] Implement task assignment directly from the CodeFeed UI.
-### 5. User management
- - [ ] FR 5.1 Implement user login and registration.
