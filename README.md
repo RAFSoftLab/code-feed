@@ -44,6 +44,7 @@ When editing the code, it will automatically refresh the web page.
  - [Functional Requirements](docs/functional-requirements.md)
  - [Sequence diagrams](docs/sequence-diagrams.md)
  - [Prompt engineering](docs/prompt-engineering.md)
+ - [Security considerations](docs/security.md)
  - [Kanban Board](https://github.com/orgs/RAFSoftLab/projects/5)
 
 ## License
