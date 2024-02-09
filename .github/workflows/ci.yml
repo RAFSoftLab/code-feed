@@ -1,5 +1,8 @@
 name: Run tests and report coverage
-on: [push]
+on:
+  push:
+  pull_request:
+
 jobs:
   phpunit:
     runs-on: ubuntu-latest
