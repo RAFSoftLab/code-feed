@@ -12,11 +12,12 @@ jobs:
         run: cp .env.example .env
       - name: Install Composer Dependencies
         uses: php-actions/composer@v6
-      - name: Run Tests
-        uses: php-actions/phpunit@v3
-        with:
-          php_extensions: "xdebug"
-          coverage_clover: "coverage/clover.xml"
-          args: --coverage-text
-        env:
-            XDEBUG_MODE: coverage
+      - name: Run
+        run: php artisan test
+#        uses: php-actions/phpunit@v3
+#        with:
+#          php_extensions: "xdebug"
+#          coverage_clover: "coverage/clover.xml"
+#          args: --coverage-text
+#        env:
+#            XDEBUG_MODE: coverage
