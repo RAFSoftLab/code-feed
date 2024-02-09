@@ -15,7 +15,7 @@ jobs:
       - name: Run
         run: php artisan test
         env:
-          API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_AI_KEY: ${{ secrets.GOOGLE_AI_KEY }}
 #        uses: php-actions/phpunit@v3
 #        with:
 #          php_extensions: "xdebug"
