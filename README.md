@@ -41,7 +41,7 @@ npm run dev
 ```
 When editing the code, it will automatically refresh the web page.
 ## Documentation
- - [Functional Requirements](docs/functional-requirements.md)
+ - [Functional Requirements](docs/requirements)
  - [Sequence diagrams](docs/sequence-diagrams.md)
  - [Prompt engineering](docs/prompt-engineering.md)
  - [Security considerations](docs/security.md)
