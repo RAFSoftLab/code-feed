@@ -15,13 +15,13 @@ class GitRepositoryService
     public function __construct(string $gitRepositoryUrl)
     {
         $this->repositoryUrl = $gitRepositoryUrl;
-        $this->dirName = sys_get_temp_dir().DIRECTORY_SEPARATOR.'repo';
         // pattern for ssh links
         // $pattern = '/:(.*)\/(.*).git/';
         // preg_match($pattern, $githubRepository, $matches);
         preg_match('~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~', $gitRepositoryUrl, $matches);
         $this->organizationName = $matches[1];
         $this->repositoryName = $matches[2];
+        $this->dirName = sys_get_temp_dir().DIRECTORY_SEPARATOR.$this->organizationName.'_'.$this->repositoryName;
     }
     public function getRepositoryName(): string
     {
@@ -33,28 +33,88 @@ class GitRepositoryService
     {
         return $this->organizationName;
     }
-    public function getDirName(): string
-    {
-        return $this->dirName;
-    }
 
-    public function cloneRepository(): void
+    private function cloneRepository(): void
     {
-        $this->generateTmpDir();
-        $this->repository = Admin::cloneTo($this->dirName, $this->repositoryUrl, false);
+
+        if (!file_exists($this->dirName)) {
+            echo "creating new repository in ".$this->dirName."\n";
+            Admin::cloneTo($this->dirName, $this->repositoryUrl, false);
+        }
+//        $this->generateTmpDir();
+        $this->repository = new Repository($this->dirName);
     }
 
     public function getCommits(): array
     {
+        $this->cloneRepository();
         $log = $this->repository->getLog();
 
         return  $log->getCommits();
+    }
+
+    public function getNewCommits(): array
+    {
+        $this->cloneRepository();
+        try {
+            $this->repository->run('fetch', ['origin']);
+        } catch (\Exception $e) {
+            echo "An error occurred while fetching changes: " . $e->getMessage() . "\n";
+            exit;
+        }
+
+        // Get the current branch name
+        $defaultBranchName = 'master';
+        try {
+            if (!$this->repository->getReferences()->hasBranch($defaultBranchName)) {
+                // If 'master' branch does not exist, try to determine the default branch from remote
+                $remoteDefaultBranch = $this->repository->run('symbolic-ref', ['refs/remotes/origin/HEAD']);
+                $defaultBranchName = basename(trim($remoteDefaultBranch)); // Removes 'refs/remotes/origin/' and trims whitespace
+            }
+        } catch (\Exception $e) {
+            echo "An error occurred while determining the default branch: " . $e->getMessage() . "\n";
+            exit;
+        }
+        $branchName = $defaultBranchName;
+        $remoteBranchName = "origin/{$branchName}";
+
+        // Get the commit log difference between the local and remote branches
+        try {
+            $localCommitHash = $this->repository->getReferences()->getBranch($branchName)->getCommit()->getHash();
+            $remoteCommitHash = $this->repository->getReferences()->getRemoteBranch($remoteBranchName)->getCommit()->getHash();
+            $localDifferences = $this->getLogBetweenCommits($localCommitHash, $remoteCommitHash);
+
+            $newCommits = [];
+            foreach ($localDifferences as $commit) {
+                $newCommits[] = $this->repository->getCommit($commit);
+            }
+
+            try {
+                $this->repository->run('pull');
+            } catch (\Exception $e) {
+                echo "An error occurred while fetching changes: " . $e->getMessage() . "\n";
+                exit;
+            }
+
+            return $newCommits;
+        } catch (\Exception $e) {
+            echo "An error occurred while trying to find differences: " . $e->getMessage() . "\n";
+            return array();
+        }
     }
 
 
     public function cleanUp(): void
     {
         $this->removeDirectory($this->dirName);
+    }
+
+    private function getLogBetweenCommits(string $localCommitHash, string $remoteCommitHash): array
+    {
+        $command = "cd $this->dirName && git --no-pager log --format=\"%H\" $localCommitHash..$remoteCommitHash";
+        print "Running command: $command\n";
+        exec($command, $output);
+        return $output;
     }
 
     public function getCommitChanges(string $commitHash): string

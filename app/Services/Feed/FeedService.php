@@ -17,6 +17,14 @@ class FeedService
     const WEIGHT_LENGTH = 1;
     const MAX_TIME_DECAY_FACTOR = 0.99; // Maximum time decay factor
     const MAX_HOUR_DIFFERENCE = 24 * 365; // Maximum time difference in hours (1 year)
+    private LLMService $aiService;
+    private string $gitRepositoryURL;
+
+    public function __construct(LLMService $aiService, string $gitRepositoryUrl = '')
+    {
+        $this->aiService = $aiService;
+        $this->gitRepositoryURL = $gitRepositoryUrl;
+    }
 
     public function getFeed(): Collection
     {
@@ -60,29 +68,40 @@ class FeedService
         return $posts->sortByDesc($rankFunction);
     }
 
-    public function loadFreshFeed(string $gitRepositoryURL, LLMService $aiService): void
+    public function loadFreshFeed(): void
     {
-        $gitRepositoryService = new GitRepositoryService($gitRepositoryURL);
-        $gitRepositoryService->cloneRepository();
+        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL);
+        $gitRepositoryService->cleanUp();
         $commits = $gitRepositoryService->getCommits();
         $this->deleteAllCommitsAndPosts($gitRepositoryService);
 
         foreach ($commits as $commit) {
             $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
-            $issues = $aiService->findIssues($commitChanges);
+            $issues = $this->aiService->findIssues($commitChanges);
+            $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues);
+            $this->createPosts($commitModel, $this->aiService);
+        }
+    }
 
+    public function updateFeed(): void
+    {
+        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL);
+        $commits = $gitRepositoryService->getNewCommits();
+
+        foreach ($commits as $commit) {
+            $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
+            $issues = $this->aiService->findIssues($commitChanges);
 
             $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues);
-            $this->createPosts($commitModel, $aiService);
+            $this->createPosts($commitModel, $this->aiService);
         }
-        $gitRepositoryService->cleanUp();
     }
 
     private function createPosts(Commit $commit, LLMService $aiService): void
     {
         if (empty($commit->summary))
             $summaries = $aiService->summarize($commit);
-        else $summaries = array();
+        else $summaries = [$commit->summary];
 
         foreach ($summaries as $summary) {
             $post = new Post();

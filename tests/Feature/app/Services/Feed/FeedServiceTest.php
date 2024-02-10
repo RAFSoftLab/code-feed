@@ -10,10 +10,14 @@ use Tests\TestCase;
 class FeedServiceTest extends TestCase
 {
 
-    public function testLoadFreshFeed()
+    public function testLoadFeed()
     {
-        $feedService = new FeedService();
-        $feedService->loadFreshFeed('https://github.com/RAFSoftLab/code-Feed-test-repo.git', new GoogleAIService());
-        self::assertEquals(3, $feedService->getFeed()->count());
+        $feedService = new FeedService(new GoogleAIService(), 'https://github.com/RAFSoftLab/code-Feed-test-repo.git');
+        $feedService->loadFreshFeed();
+
+        self::assertEquals(6, $feedService->getFeed()->count());
+
+        $feedService->updateFeed();
+        // TODO add testing for new commits.
     }
 }

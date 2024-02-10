@@ -10,10 +10,9 @@ class GitRepositoryServiceTest extends TestCase
     public function test_clone_repository()
     {
         $gitRepositoryService = new GitRepositoryService('https://github.com/RAFSoftLab/code-Feed-test-repo.git');
-        $gitRepositoryService->cloneRepository();
         $commits = $gitRepositoryService->getCommits();
-        self::assertCount(3, $commits);
-        $commitChange = $gitRepositoryService->getCommitChanges($commits[2]->getHash());
+        self::assertCount(6, $commits);
+        $commitChange = $gitRepositoryService->getCommitChanges($commits[5]->getHash());
         $expectedCommit = <<<TEXT
         commit 381d95e8e9b61bdba076e3ee2d89807419224a51
         Author: Slavko Fodor <slavko.fodor@gmail.com>
@@ -59,7 +58,13 @@ class GitRepositoryServiceTest extends TestCase
         TEXT;
         // Because of WSL development.
         $expectedCommit = str_replace("\r\n", "\n", $expectedCommit);
+
         self::assertEquals($expectedCommit, $commitChange);
+
+        $newCommits =$gitRepositoryService->getNewCommits();
+
+        self::assertCount(0, $newCommits);
+
         $gitRepositoryService->cleanUp();
     }
 
