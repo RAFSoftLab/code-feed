@@ -8,4 +8,6 @@
    
 3. [ ] Source code security issues
    - Implement SAST tool to scan code in CI
+     - Implement Snyk monitoring tool
+     - Find some other open source SAST
 
