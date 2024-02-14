@@ -16,7 +16,7 @@ class GoogleAIService implements LLMService
     private Client $client;
     public function __construct()
     {
-        $apiKey = config('ai.google_api_key' );
+        $apiKey = config('services.ai.google_api_key' );
         $this->client = new Client($apiKey);
     }
 

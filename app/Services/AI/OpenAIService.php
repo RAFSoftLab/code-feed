@@ -10,7 +10,7 @@ class OpenAIService implements LLMService
     private Client $client;
     public function __construct()
     {
-        $apiKey = config('ai.openai_key', );
+        $apiKey = config('services.ai.openai_api_key' );
         $this->client = \OpenAI::client($apiKey);
     }
 

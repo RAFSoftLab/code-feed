@@ -31,4 +31,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect_url' => env('GITHUB_CALLBACK_URL'),
+    ],
+
+    'ai' => [
+        'openai_key' => env('OPENAI_KEY'),
+        'google_api_key' => env('GOOGLE_AI_KEY'),
+    ],
 ];
