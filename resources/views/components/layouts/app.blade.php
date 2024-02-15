@@ -13,7 +13,7 @@
         <div class="flex">
             <div class="w-1/5  h-screen">
                 <ul>
-                    <li><x-turbine-ui-link href="/">CodeFeed</x-turbine-ui-link ></li>
+                    <li><x-turbine-ui-link href="/feed">CodeFeed</x-turbine-ui-link ></li>
                     <li><x-turbine-ui-link href="/repository-selector">Repositories</x-turbine-ui-link ></li>
                 </ul>
             </div>
