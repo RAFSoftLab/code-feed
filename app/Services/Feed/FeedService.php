@@ -3,6 +3,8 @@ namespace App\Services\Feed;
 
 use App\Models\Commit;
 use App\Models\Post;
+use App\Models\Repository;
+use App\Models\User;
 use App\Services\AI\GoogleAIService;
 use App\Services\AI\LLMService;
 use App\Services\Git\GitRepositoryService;
@@ -19,11 +21,14 @@ class FeedService
     const MAX_HOUR_DIFFERENCE = 24 * 365; // Maximum time difference in hours (1 year)
     private LLMService $aiService;
     private string $gitRepositoryURL;
+    private ?User $user;
 
-    public function __construct(LLMService $aiService, string $gitRepositoryUrl = '')
+    public function __construct(LLMService $aiService, string $gitRepositoryUrl = '', User $user = null)
     {
         $this->aiService = $aiService;
         $this->gitRepositoryURL = $gitRepositoryUrl;
+        $this->user = $user;
+
     }
 
     public function getFeed(): Collection
@@ -70,22 +75,30 @@ class FeedService
 
     public function loadFreshFeed(): void
     {
-        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL);
-        $gitRepositoryService->cleanUp();
-        $commits = $gitRepositoryService->getCommits();
-        $this->deleteAllCommitsAndPosts($gitRepositoryService);
+        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL, $this->user);
+        $this->deleteRepository($gitRepositoryService);
 
+        $commits = $gitRepositoryService->getCommits();
+        $repository = Repository::create(
+            [
+                'name' => $gitRepositoryService->getRepositoryName(),
+                'organization' => $gitRepositoryService->getOrganizationName(),
+                'user_id' => $this->user->id,
+                'url' => $this->gitRepositoryURL,
+                'description' => '',
+            ]
+        );
         foreach ($commits as $commit) {
             $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
             $issues = $this->aiService->findIssues($commitChanges);
-            $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues);
+            $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues, $repository);
             $this->createPosts($commitModel, $this->aiService);
         }
     }
 
     public function updateFeed(): void
     {
-        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL);
+        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL, $this->user);
         $commits = $gitRepositoryService->getNewCommits();
 
         foreach ($commits as $commit) {
@@ -119,34 +132,36 @@ class FeedService
      * @param array $issues
      * @return mixed
      */
-    private function createCommitModel(mixed $commit, string $commitChanges, GitRepositoryService $gitRepositoryService, array $issues): Commit
+    private function createCommitModel(
+        mixed $commit,
+        string $commitChanges,
+        GitRepositoryService $gitRepositoryService,
+        array $issues,
+        Repository $repository
+    ): Commit
     {
-        $commitModel = Commit::create([
+        return Commit::create([
             'author_name' => $commit->getAuthorName(),
             'author_email' => $commit->getAuthorEmail(),
             'title' => $commit->getSubjectMessage(),
             'summary' => $commit->getBodyMessage(),
             'lineCount' => substr_count($commitChanges, "\n") + 1,
-            'repository' => $gitRepositoryService->getRepositoryName(),
-            'organization' => $gitRepositoryService->getOrganizationName(),
             'hasSecurityIssues' => $issues['hasSecurityIssues'],
             'hasBugs' => $issues['hasBugs'],
             'hash' => $commit->getHash(),
             'created_at' => Carbon::create($commit->getAuthorDate()),
             'committed_at' => $commit->getAuthorDate(),
             'change' => $commitChanges,
+            'repository_id' => $repository->id
         ]);
-        return $commitModel;
     }
 
-    /**
-     * @param GitRepositoryService $gitRepositoryService
-     * @return void
-     */
-    public function deleteAllCommitsAndPosts(GitRepositoryService $gitRepositoryService): void
+    private function deleteRepository(GitRepositoryService $gitRepositoryService): void
     {
-        Commit::where('organization', $gitRepositoryService->getOrganizationName())
-            ->where('repository', $gitRepositoryService->getRepositoryName())
+        $gitRepositoryService->cleanUp();
+        Repository::where('user_id', $this->user->id)
+            ->where('organization', $gitRepositoryService->getOrganizationName())
+            ->where('name', $gitRepositoryService->getRepositoryName())
             ->delete();
     }
 }

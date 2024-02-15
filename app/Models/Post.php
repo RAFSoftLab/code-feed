@@ -10,6 +10,8 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $with = ['commit'];
+
     public function commit(): BelongsTo
     {
         return $this->belongsTo(Commit::class);

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use App\Services\AI\GoogleAIService;
 use App\Services\Feed\FeedService;
 use Illuminate\Console\Command;
@@ -13,7 +14,7 @@ class UpdateGitRepository  extends Command
      *
      * @var string
      */
-    protected $signature = 'app:update-git-repository {githubRepository=https://github.com/RAFSoftLab/code-Feed-test-repo.git}';
+    protected $signature = 'app:update-git-repository {githubRepository=https://github.com/RAFSoftLab/code-Feed-test-repo.git} {user_email=slavko.fodor@gmail.com}';
 
     /**
      * The console command description.
@@ -28,6 +29,8 @@ class UpdateGitRepository  extends Command
     public function handle(GoogleAIService $aiService): void
     {
         $githubRepositoryUrl = $this->argument('githubRepository');
+        $userEmail = $this->argument('user_email');
+        $user = User::where('email', $userEmail)->first();
 
         $feedService = new FeedService(new GoogleAIService(), $githubRepositoryUrl);
         $feedService->updateFeed();

@@ -15,17 +15,17 @@
                                 <div class="content">
                                     <p>
                                         <a class="post-link"
-                                           href="{{'https://github.com/'.$commit->organization.'/'.$commit->repository.'/commit/'.$commit->hash}}">{{$commit->title}}</a>
+                                           href="{{'https://github.com/'.$commit->repository->organization.'/'.$commit->repository->name.'/commit/'.$commit->hash}}">{{$commit->title}}</a>
                                     </p>
                                     <div class="post-content">
                                         {!! nl2br(e($commit->summary)) !!}
                                     </div>
                                     <div class="details">
                                         @if($commit->hasBugs)
-                                            <a href="/{{$commit->organization}}/{{$commit->repository}}/commits/{{$commit->hash}}" class="label red">BUGS</a>
+                                            <a href="/{{$commit->repository->organization}}/{{$commit->repository->name}}/commits/{{$commit->hash}}" class="label red">BUGS</a>
                                         @endif
                                         @if($commit->hasSecurityIssues)
-                                                <a href="/{{$commit->organization}}/{{$commit->repository}}/commits/{{$commit->hash}}" class="label red">SECURITY</a>
+                                            <a href="/{{$commit->repository->organization}}/{{$commit->repository->name}}/commits/{{$commit->hash}}" class="label red">SECURITY</a>
                                         @endif
                                         <span class="time">{{$commit->created_at->diffForHumans()}}</span>
                                     </div>

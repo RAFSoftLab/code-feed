@@ -29,13 +29,14 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 require __DIR__.'/auth.php';
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/repository-selector', RepositorySelector::class);
 
-Route::get('/repository-selector', RepositorySelector::class);
+    Route::get('/{organization}/{repository}/commits', CommitFeed::class);
+    Route::get('/{organization}/{repository}/commits/{hash}', ShowCommit::class);
 
-Route::get('/{organization}/{repository}/commits', CommitFeed::class);
-Route::get('/{organization}/{repository}/commits/{hash}', ShowCommit::class);
+    Route::get('/post-Feed', PostFeed::class);
+    Route::get('/{organization}/{repository}/post-Feed', PostFeed::class);
 
-Route::get('/post-Feed', PostFeed::class);
-Route::get('/{organization}/{repository}/post-Feed', PostFeed::class);
-
-Route::get('/feed',CodeFeed::class);
+    Route::get('/feed', CodeFeed::class);
+});

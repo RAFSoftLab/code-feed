@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Commit;
+use App\Models\Repository;
 use Illuminate\View\View;
 
 use Livewire\Attributes\Title;
@@ -22,12 +23,17 @@ class PostFeed extends Component
     #[Title('Repository Post Feed')]
     public function render(): View
     {
-        $commits = Commit::where('organization', $this->organization)
-            ->where('repository', $this->repository)
-            ->with('posts')
-            ->with('posts.commit')
-            ->get();
-        $posts = $commits->pluck('posts')->flatten();
+        $repository =  Repository::where('user_id', auth()->user()->id)
+            ->where('organization', $this->organization)
+            ->where('name', $this->repository)
+            ->with([
+                'commits'
+                    => [
+                        'posts'
+                    ]
+            ])
+            ->first();
+        $posts = $repository->commits->pluck('posts')->flatten();
 
         return view('livewire.code-feed')
             ->with('posts', $posts);

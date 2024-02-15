@@ -2,6 +2,7 @@
 
 namespace App\Services\Git;
 
+use App\Models\User;
 use Gitonomy\Git\Admin;
 use Gitonomy\Git\Repository;
 
@@ -11,37 +12,30 @@ class GitRepositoryService
     private Repository $repository;
     private string $dirName;
     private string $repositoryName;
+    private ?User $user;
+    private string $organizationName;
 
-    public function __construct(string $gitRepositoryUrl)
+    public function __construct(string $gitRepositoryUrl, User $user = null)
     {
         $this->repositoryUrl = $gitRepositoryUrl;
+        $this->user = $user;
         // pattern for ssh links
         // $pattern = '/:(.*)\/(.*).git/';
         // preg_match($pattern, $githubRepository, $matches);
         preg_match('~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~', $gitRepositoryUrl, $matches);
         $this->organizationName = $matches[1];
         $this->repositoryName = $matches[2];
-        $this->dirName = sys_get_temp_dir().DIRECTORY_SEPARATOR.$this->organizationName.'_'.$this->repositoryName;
-    }
-    public function getRepositoryName(): string
-    {
-        return $this->repositoryName;
-    }
-    private string $organizationName;
-
-    public function getOrganizationName(): string
-    {
-        return $this->organizationName;
+        $this->dirName = sys_get_temp_dir() . DIRECTORY_SEPARATOR
+            .($user? $user->email.DIRECTORY_SEPARATOR : '')
+            .$this->organizationName.'_'.$this->repositoryName;
     }
 
     private function cloneRepository(): void
     {
-
         if (!file_exists($this->dirName)) {
             echo "creating new repository in ".$this->dirName."\n";
             Admin::cloneTo($this->dirName, $this->repositoryUrl, false);
         }
-//        $this->generateTmpDir();
         $this->repository = new Repository($this->dirName);
     }
 
@@ -103,7 +97,6 @@ class GitRepositoryService
         }
     }
 
-
     public function cleanUp(): void
     {
         $this->removeDirectory($this->dirName);
@@ -131,5 +124,15 @@ class GitRepositoryService
     private function removeDirectory(string $dir): void
     {
         system('rm -rf '.$dir);
+    }
+
+    public function getRepositoryName(): string
+    {
+        return $this->repositoryName;
+    }
+
+    public function getOrganizationName(): string
+    {
+        return $this->organizationName;
     }
 }

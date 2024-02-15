@@ -2,7 +2,7 @@
     @foreach ($posts as $post)
         <div class="post-feed-item">
             <h2 class="post-title">
-                <a href="/{{$post->commit->organization}}/{{$post->commit->repository}}/commits/{{$post->commit->hash}}" class="post-link">
+                <a href="/{{$post->commit->repository->organization}}/{{$post->commit->repository->name}}/commits/{{$post->commit->hash}}" class="post-link">
                     {{ $post->commit->title }}
                 </a>
             </h2>
@@ -12,9 +12,9 @@
             </div>
 
             <div class="post-meta">
-                <a href="/{{$post->commit->organization}}/{{$post->commit->repository}}/commits/{{$post->commit->hash}}">
+                <a href="/{{$post->commit->repository->organization}}/{{$post->commit->repository->name}}/commits/{{$post->commit->hash}}">
                     <span class="post-created-at">
-                      {{ $post->commit->organization }}/{{ $post->commit->repository }}
+                      {{ $post->commit->repository->organization }}/{{ $post->commit->repository->name }}
                     </span>
                     <span class="post-created-at">
                       {{ $post->commit->created_at->diffForHumans()}}

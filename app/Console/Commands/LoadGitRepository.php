@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Commit;
 use App\Models\Post;
+use App\Models\User;
 use App\Services\AI\GoogleAIService;
 use App\Services\Feed\FeedService;
 use App\Services\Git\GitRepositoryService;
@@ -19,7 +20,7 @@ class LoadGitRepository extends Command
      *
      * @var string
      */
-    protected $signature = 'app:load-git-repository {githubRepository=https://github.com/RAFSoftLab/code-Feed-test-repo.git}';
+    protected $signature = 'app:load-git-repository {githubRepository=https://github.com/RAFSoftLab/code-Feed-test-repo.git} {user_email=slavko.fodor@gmail.com}';
 
     /**
      * The console command description.
@@ -34,8 +35,10 @@ class LoadGitRepository extends Command
     public function handle(GoogleAIService $aiService): void
     {
         $githubRepositoryUrl = $this->argument('githubRepository');
+        $userEmail = $this->argument('user_email');
+        $user = User::where('email', $userEmail)->first();
 
-        $feedService = new FeedService(new GoogleAIService(), $githubRepositoryUrl);
+        $feedService = new FeedService(new GoogleAIService(), $githubRepositoryUrl, $user);
         $feedService->loadFreshFeed();
     }
 }

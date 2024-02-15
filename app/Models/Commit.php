@@ -5,12 +5,14 @@ namespace App\Models;
 use App\Services\GithubService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Commit extends Model
 {
     use HasFactory;
 
+    protected $with = ['repository'];
     protected $fillable = [
         'author_name',
         'author_email',
@@ -25,7 +27,8 @@ class Commit extends Model
         'created_at',
         'committed_at',
         'organization',
-        'change'
+        'change',
+        'repository_id'
     ];
 
     /**
@@ -40,5 +43,10 @@ class Commit extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function repository(): BelongsTo
+    {
+        return $this->belongsTo(Repository::class);
     }
 }

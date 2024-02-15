@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Repository;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,14 +19,15 @@ return new class extends Migration
             $table->string('title');
             $table->string('summary');
             $table->integer('lineCount');
-            $table->string('repository');
-            $table->string('organization');
             $table->boolean('hasSecurityIssues');
             $table->boolean('hasBugs');
             $table->string('hash');
-            $table->integer('committed_at')->nullable();
+            $table->integer('committed_at');
             $table->longText('change')->nullable();
             $table->timestamps();
+            $table->foreignIdFor(Repository::class)
+                ->constrained()
+                ->onDelete('cascade');
         });
     }
 
