@@ -42,7 +42,7 @@ npm run dev
 When editing the code, it will automatically refresh the web page.
 ## Documentation
  - [Functional Requirements](docs/requirements)
- - [Sequence diagrams](docs/sequence-diagrams.md)
+ - [Diagrams](docs/diagrams)
  - [Prompt engineering](docs/prompt-engineering.md)
  - [Security considerations](docs/security.md)
  - [Kanban Board](https://github.com/orgs/RAFSoftLab/projects/5)
