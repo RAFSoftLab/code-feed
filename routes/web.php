@@ -1,7 +1,8 @@
 <?php
 
 use App\Livewire\CodeFeed;
-use App\Livewire\CommitFeed;
+use App\Livewire\Commits;
+use App\Livewire\GitHub\GithubRepositories;
 use App\Livewire\PostFeed;
 use App\Livewire\RepositorySelector;
 use App\Livewire\ShowCommit;
@@ -29,14 +30,25 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 require __DIR__.'/auth.php';
+
+Route::get('/github/oauth', \App\Http\Controllers\GitHub\OAuth::class);
+Route::get('/github/auth-success', GithubRepositories::class);
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/repository-selector', RepositorySelector::class);
+    Route::view('/repository-selector', 'repositories')
+        ->name('repository-selector');
 
-    Route::get('/{organization}/{repository}/commits', CommitFeed::class);
-    Route::get('/{organization}/{repository}/commits/{hash}', ShowCommit::class);
+    Route::view('feed', 'feed')
+        ->name('feed');
 
-    Route::get('/post-Feed', PostFeed::class);
-    Route::get('/{organization}/{repository}/post-Feed', PostFeed::class);
+    Route::view('/{organization}/{repository}/commits', 'commits')
+        ->name('commits');
 
-    Route::get('/feed', CodeFeed::class);
+    Route::view('/{organization}/{repository}/commits/{hash}', 'show-commit')
+        ->name('show-commit');
+
+    Route::view('/{organization}/{repository}/post-feed', 'post-feed')
+        ->name('post-feed');
+
+
 });

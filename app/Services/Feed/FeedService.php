@@ -101,11 +101,15 @@ class FeedService
         $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL, $this->user);
         $commits = $gitRepositoryService->getNewCommits();
 
+        $repository = Repository::where('url', $this->gitRepositoryURL)
+            ->where('user_id', $this->user->id)
+            ->first();
+
         foreach ($commits as $commit) {
             $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
             $issues = $this->aiService->findIssues($commitChanges);
 
-            $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues);
+            $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues, $repository);
             $this->createPosts($commitModel, $this->aiService);
         }
     }
@@ -125,13 +129,6 @@ class FeedService
         }
     }
 
-    /**
-     * @param mixed $commit
-     * @param string $commitChanges
-     * @param GitRepositoryService $gitRepositoryService
-     * @param array $issues
-     * @return mixed
-     */
     private function createCommitModel(
         mixed $commit,
         string $commitChanges,

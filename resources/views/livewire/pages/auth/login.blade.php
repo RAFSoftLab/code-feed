@@ -28,7 +28,11 @@ new #[Layout('layouts.guest')] class extends Component
 <div>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    <div class="flex justify-start">
+        <x-primary-button onclick="window.location='https://github.com/login/oauth/authorize?client_id={{ config('services.github.client_id') }}'">
+            Log in with GitHub
+        </x-primary-button>
+    </div>
     <form wire:submit="login">
         <!-- Email Address -->
         <div>
