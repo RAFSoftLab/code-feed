@@ -1,4 +1,4 @@
-![Usecase](docs/usecase.png)
+![Usecase](usecase.png)
 # Functional Requirements
 ## Proof of Concept
 ### 1. GIT
