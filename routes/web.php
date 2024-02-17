@@ -21,13 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
 
 require __DIR__.'/auth.php';
 
@@ -35,6 +29,12 @@ Route::get('/github/oauth', \App\Http\Controllers\GitHub\OAuth::class);
 Route::get('/github/auth-success', GithubRepositories::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('dashboard', 'dashboard')
+        ->name('dashboard');
+
+    Route::view('profile', 'profile')
+        ->name('profile');
+
     Route::view('/repository-selector', 'repositories')
         ->name('repository-selector');
 
@@ -43,12 +43,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::view('/{organization}/{repository}/commits', 'commits')
         ->name('commits');
-
     Route::view('/{organization}/{repository}/commits/{hash}', 'show-commit')
         ->name('show-commit');
 
     Route::view('/{organization}/{repository}/post-feed', 'post-feed')
         ->name('post-feed');
-
-
 });

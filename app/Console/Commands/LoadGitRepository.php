@@ -20,7 +20,7 @@ class LoadGitRepository extends Command
      *
      * @var string
      */
-    protected $signature = 'app:load-git-repository {githubRepository=https://github.com/RAFSoftLab/code-Feed-test-repo.git} {user_email=slavko.fodor@gmail.com}';
+    protected $signature = 'app:load-git-repository {githubRepository=https://github.com/RAFSoftLab/code-feed-test-repo.git} {user_email=slavko.fodor@gmail.com}';
 
     /**
      * The console command description.

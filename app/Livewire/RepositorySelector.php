@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Commit;
 use App\Models\Repository;
 use Illuminate\View\View;
 use Livewire\Attributes\Title;
@@ -18,6 +17,7 @@ class RepositorySelector extends Component
             ->get();
 
         return view('livewire.repository-selector')
-            ->with('orgRepoCombo', $orgRepoCombo);
+            ->with('orgRepoCombo', $orgRepoCombo)
+            ->with('user', auth()->user());
     }
 }
