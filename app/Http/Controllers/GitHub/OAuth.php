@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\GitHub;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class OAuth extends Controller
@@ -27,15 +29,42 @@ class OAuth extends Controller
             parse_str($response->body(), $parsed);
             $accessToken = $parsed['access_token'];
             $refreshToken = $parsed['refresh_token'];
-            // Redirect
-            return redirect('/github/auth-success?access_token=' . $accessToken . '&refresh_token=' . $refreshToken);
+            $refreshTokenExpiresAt = now()->addSeconds($parsed['expires_in']);
+            $this->updateOrCreateUser($accessToken, $refreshToken, $refreshTokenExpiresAt);
+
+            return redirect(route('dashboard'));
         }
+
         if ($response->clientError()) {
             echo 'Error: ' . $response->body();
         }
 
         if ($response->serverError()) {
             echo 'Error: ' . $response->body();
+        }
+    }
+
+    private function updateOrCreateUser(string $accessToken, string $refreshToken, $refreshTokenExpiresAt)
+    {
+        // Save tokens to user fields.
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->github_access_token = $accessToken;
+            $user->github_refresh_token = $refreshToken;
+            $user->update();
+        } else {
+            $response = Http::withToken($accessToken)->get('https://api.github.com/user')->json();
+            $user = User::firstOrCreate([
+                'email' => $response['email'],
+            ])->fill([
+                'github_id' => $response['login'],
+                'github_access_token' => $accessToken,
+                'github_refresh_token' => $refreshToken,
+                'github_refresh_token_expires_at' => $refreshTokenExpiresAt,
+            ]);
+            $user->update();
+
+            Auth::login($user);
         }
     }
 }

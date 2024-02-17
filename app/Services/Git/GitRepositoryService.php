@@ -5,6 +5,7 @@ namespace App\Services\Git;
 use App\Models\User;
 use Gitonomy\Git\Admin;
 use Gitonomy\Git\Repository;
+use Illuminate\Support\Facades\Log;
 
 class GitRepositoryService
 {
@@ -22,9 +23,12 @@ class GitRepositoryService
         // pattern for ssh links
         // $pattern = '/:(.*)\/(.*).git/';
         // preg_match($pattern, $githubRepository, $matches);
-        preg_match('~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~', $gitRepositoryUrl, $matches);
+        $pattern ='~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~';
+        preg_match($pattern, $this->repositoryUrl, $matches);
         $this->organizationName = $matches[1];
         $this->repositoryName = $matches[2];
+        // Change to include the token to get private repositories.
+        $this->repositoryUrl = "https://$user->github_access_token@github.com/$matches[1]/$matches[2].git";
         $this->dirName = sys_get_temp_dir() . DIRECTORY_SEPARATOR
             .($user? $user->email.DIRECTORY_SEPARATOR : '')
             .$this->organizationName.'_'.$this->repositoryName;
