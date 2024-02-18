@@ -45,8 +45,15 @@ If working with WSL and using SQLite db, Datagrip or intellij won't be able too 
 ```bash
 ln -sf /mnt/c/work/database.sqlite database.sqlite
 ```
-Running the automated tasks in the background: add the following to cron
-`* * * * * cd /home/sfodor/code/code-feed/ && php artisan schedule:run >> /dev/null 2>&1`
+Running background tasks(importing repositories):
+```bash
+php artisan queue:work --timeout=0
+
+```
+Running the automated repository updates in the background: add the following to cron
+```
+* * * * * cd /home/sfodor/code/code-feed/ && php artisan schedule:run >> /dev/null 2>&1
+```
 Replace sfodor with your user name and correct path to code-feed.
 ## Documentation
  - [Functional Requirements](docs/requirements)

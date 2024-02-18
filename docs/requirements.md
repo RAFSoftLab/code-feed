@@ -8,18 +8,18 @@
  - [x] FR 1.4 Display the list of issues in each commit.
  - [x] FR 1.5 Load new commits as they are created.
  - [x] FR 1.6 Open GitHub commit view for each commit.
- - [ ] FR 1.7 Load private repositories from GitHub.
+ - [x] FR 1.7 Load private repositories from GitHub.
 ### 2. News(Code)Feed
  - [x] FR 2.1 For each loaded commit, generate a few newsfeed posts that explain what was done.
  - [x] FR 2.2 Apply ranking algorithm to each post.
  - [x] FR 2.3 Display each post in sorted order according to the ranking algorithm.
- - [ ] FR 2.3 Personalize news feed for the current user.
+ - [x] FR 2.3 Personalize news feed for the current user.
 ### 3. Commit Analysis
  - [x] FR 3.1 Use LLM to infer the summary of each commit.
  - [x] FR 3.2 Use LLM to infer bugs and security issues in each commit.
 ### 4. User management
-- [ ] FR 4.1 Implement user login and registration.
-- [ ] FR 4.2 Implement login via GitHub.
+- [x] FR 4.1 Implement user login and registration.
+- [x] FR 4.2 Implement login via GitHub.
 
 ## MVP
 ### 1. GIT
