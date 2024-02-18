@@ -38,7 +38,7 @@ class LoadGitRepository extends Command
         $userEmail = $this->argument('user_email');
         $user = User::where('email', $userEmail)->first();
 
-        $feedService = new FeedService(new GoogleAIService(), $githubRepositoryUrl, $user);
+        $feedService = new FeedService(new GoogleAIService(), $user, $githubRepositoryUrl);
         $feedService->loadFreshFeed();
     }
 }

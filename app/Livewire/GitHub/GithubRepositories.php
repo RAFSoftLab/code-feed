@@ -14,7 +14,7 @@ class GithubRepositories extends Component
 {
     public array $selectedRepositories = [];
     public array $repositories = [];
-    public Collection $alreadyImported;
+    public Collection $alreadyImportedRepositories;
 
 
     public function render(): View
@@ -22,7 +22,10 @@ class GithubRepositories extends Component
         $user = Auth::user();
         $accessToken =  $user->github_access_token;
         $response = Http::withToken($accessToken)->get('https://api.github.com/user/repos');
-        $this->repositories = json_decode($response->body(), true);
+        $this->repositories = array_filter(
+            json_decode($response->body(), true),
+            fn($repository) => $this->filterImported($repository)
+        );
 
         return view('livewire.github-repositories', [
             'repositories' => $this->repositories,
@@ -31,6 +34,7 @@ class GithubRepositories extends Component
 
     public function importSelected(): void
     {
+        // Reset the selected repositories array
         foreach ($this->selectedRepositories as $selectedRepository) {
             LoadGitRepositoryJob::dispatch([
                 'repository' => $selectedRepository,
@@ -39,11 +43,21 @@ class GithubRepositories extends Component
         }
     }
 
-    public function getSelectedRepositoryNamesProperty()
+    public function getSelectedRepositoryNamesProperty(): array
     {
         return collect($this->repositories)
             ->whereIn('url', $this->selectedRepositories)
             ->pluck('name')
             ->all();
+    }
+
+    function filterImported(array $repository): bool
+    {
+        foreach ($this->alreadyImportedRepositories as $importedRepository) {
+            if ($repository['full_name'] === "$importedRepository->organization/$importedRepository->name") {
+                return false;
+            }
+        }
+        return !in_array($repository['clone_url'], $this->selectedRepositories);
     }
 }

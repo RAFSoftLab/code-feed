@@ -35,6 +35,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'github_access_token',
+        'github_refresh_token'
     ];
 
     /**

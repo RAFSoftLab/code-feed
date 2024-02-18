@@ -5,9 +5,9 @@ use App\Models\Commit;
 use App\Models\Post;
 use App\Models\Repository;
 use App\Models\User;
-use App\Services\AI\GoogleAIService;
 use App\Services\AI\LLMService;
 use App\Services\Git\GitRepositoryService;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 
@@ -21,19 +21,21 @@ class FeedService
     const MAX_HOUR_DIFFERENCE = 24 * 365; // Maximum time difference in hours (1 year)
     private LLMService $aiService;
     private string $gitRepositoryURL;
-    private ?User $user;
+    private User $user;
 
-    public function __construct(LLMService $aiService, string $gitRepositoryUrl = '', User $user = null)
+    public function __construct(LLMService $aiService, Authenticatable  $user, string $gitRepositoryUrl = '')
     {
         $this->aiService = $aiService;
         $this->gitRepositoryURL = $gitRepositoryUrl;
         $this->user = $user;
-
     }
 
     public function getFeed(): Collection
     {
-        $posts = Post::with('commit')->get();
+        $user = $this->user;
+        $posts = Post::whereHas('commit.repository', function ($query) use ($user) {
+            $query->where('user_id', $user->id); // Filter where repository's user_id is the current user's id
+        })->with(['commit.repository.user'])->get(); // Eager load the relationships
 
         return $this->rankPosts($posts);
     }
@@ -91,7 +93,7 @@ class FeedService
         foreach ($commits as $commit) {
             $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
             $issues = $this->aiService->findIssues($commitChanges);
-            $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues, $repository);
+            $commitModel = $this->createCommitModel($commit, $commitChanges, $issues, $repository);
             $this->createPosts($commitModel, $this->aiService);
         }
     }
@@ -109,7 +111,7 @@ class FeedService
             $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
             $issues = $this->aiService->findIssues($commitChanges);
 
-            $commitModel = $this->createCommitModel($commit, $commitChanges, $gitRepositoryService, $issues, $repository);
+            $commitModel = $this->createCommitModel($commit, $commitChanges, $issues, $repository);
             $this->createPosts($commitModel, $this->aiService);
         }
     }
@@ -132,7 +134,6 @@ class FeedService
     private function createCommitModel(
         mixed $commit,
         string $commitChanges,
-        GitRepositoryService $gitRepositoryService,
         array $issues,
         Repository $repository
     ): Commit

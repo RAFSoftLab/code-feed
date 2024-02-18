@@ -12,7 +12,7 @@ class FeedServiceTest extends TestCase
 
     public function testLoadFeed()
     {
-        $feedService = new FeedService(new GoogleAIService(), 'https://github.com/RAFSoftLab/code-Feed-test-repo.git');
+        $feedService = new FeedService(new GoogleAIService(), null, 'https://github.com/RAFSoftLab/code-Feed-test-repo.git');
         $feedService->loadFreshFeed();
 
         self::assertEquals(6, $feedService->getFeed()->count());

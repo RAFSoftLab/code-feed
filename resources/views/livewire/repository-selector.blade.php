@@ -7,6 +7,6 @@
         </p>
     @endforeach
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <livewire:git-hub.github-repositories :already-imported="$orgRepoCombo"/>
+        <livewire:git-hub.github-repositories :already-imported-repositories="$orgRepoCombo"/>
     </div>
 </div>

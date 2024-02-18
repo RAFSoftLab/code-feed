@@ -31,7 +31,7 @@ class LoadGitRepositoryJob implements ShouldQueue
         $user =  $this->data['user'];
         $selectedRepository = $this->data['repository'];
         $githubRepositoryUrl = $selectedRepository;
-        $feedService = new FeedService(new GoogleAIService(), $githubRepositoryUrl, $user);
+        $feedService = new FeedService(new GoogleAIService(), $user, $githubRepositoryUrl);
         $feedService->loadFreshFeed();
     }
 }

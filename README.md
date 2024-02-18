@@ -40,6 +40,14 @@ to run the server.
 npm run dev
 ```
 When editing the code, it will automatically refresh the web page.
+3
+If working with WSL and using SQLite db, Datagrip or intellij won't be able too access the db. Copy it to windows and
+```bash
+ln -sf /mnt/c/work/database.sqlite database.sqlite
+```
+Running the automated tasks in the background: add the following to cron
+`* * * * * cd /home/sfodor/code/code-feed/ && php artisan schedule:run >> /dev/null 2>&1`
+Replace sfodor with your user name and correct path to code-feed.
 ## Documentation
  - [Functional Requirements](docs/requirements)
  - [Diagrams](docs/diagrams)
