@@ -20,8 +20,12 @@
 ### 4. User management
 - [x] FR 4.1 Implement user login and registration.
 - [x] FR 4.2 Implement login via GitHub.
+- [ ] FR 4.3 Implement admin functionality.
+- [ ] FR 4.4 User dashboard - show statistics about the current user.
+### 5. Server management
+- [ ] FR 5.1 Admin should be able to switch between local and remote LLM service.
 
-## MVP
+## Beyond POC
 ### 1. GIT
  - [ ] FR 1.1 For a commit, find code that was changed by it and load authors.
 ### 2. News(Code)Feed
@@ -34,6 +38,5 @@
      - Security Issues
      - Code Complexity
      - Size of code
- - [ ]  3.2 Use LLM to infer bugs and security issues in each commit.
 ### 4. Task Management
  - [ ] Implement task assignment directly from the CodeFeed UI
