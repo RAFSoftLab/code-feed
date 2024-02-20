@@ -56,8 +56,8 @@ Running the automated repository updates in the background: add the following to
 ```
 Replace sfodor with your user name and correct path to code-feed.
 ## Documentation
- - [Functional Requirements](docs/requirements)
- - [Diagrams](docs/diagrams)
+ - [Functional Requirements](docs/requirements.md)
+ - [Diagrams](docs/diagrams.md)
  - [Prompt engineering](docs/prompt-engineering.md)
  - [Security considerations](docs/security.md)
  - [Kanban Board](https://github.com/orgs/RAFSoftLab/projects/5)
