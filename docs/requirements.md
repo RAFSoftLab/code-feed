@@ -20,7 +20,7 @@
 ### 4. User management
 - [x] FR 4.1 Implement user login and registration.
 - [x] FR 4.2 Implement login via GitHub.
-- [ ] FR 4.3 Implement admin functionality.
+- [x] FR 4.3 Implement admin functionality.
 - [x] FR 4.4 User dashboard - show statistics about the current user.
 ### 5. Server management
 - [ ] FR 5.1 Admin should be able to switch between local and remote LLM service.
