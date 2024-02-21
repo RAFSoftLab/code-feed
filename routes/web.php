@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
-
 require __DIR__.'/auth.php';
 
 Route::get('/github/oauth', \App\Http\Controllers\GitHub\OAuth::class);

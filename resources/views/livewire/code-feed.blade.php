@@ -12,7 +12,7 @@
             </div>
 
             <div class="post-meta">
-                <a href="/{{$post->commit->repository->organization}}/{{$post->commit->repository->name}}/commits/{{$post->commit->hash}}">
+                <a href="{{'https://github.com/'.$post->commit->repository->organization.'/'.$post->commit->repository->name.'/commit/'.$post->commit->hash}}">
                     <span class="post-created-at">
                       {{ $post->commit->repository->organization }}/{{ $post->commit->repository->name }}
                     </span>

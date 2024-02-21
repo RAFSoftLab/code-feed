@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
         'github_access_token',
         'github_refresh_token',
         'github_refresh_token_expires_at',
