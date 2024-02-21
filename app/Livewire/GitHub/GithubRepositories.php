@@ -15,6 +15,7 @@ class GithubRepositories extends Component
     public array $selectedRepositories = [];
     public array $repositories = [];
     public Collection $alreadyImportedRepositories;
+    public string $newRepository = '';
 
 
     public function render(): View
@@ -34,6 +35,10 @@ class GithubRepositories extends Component
 
     public function importSelected(): void
     {
+        if ($this->newRepository) {
+            $this->selectedRepositories[] = $this->newRepository;
+            $this->newRepository = ''; // Clear the input field after adding the value
+        }
         // Reset the selected repositories array
         foreach ($this->selectedRepositories as $selectedRepository) {
             LoadGitRepositoryJob::dispatch([
