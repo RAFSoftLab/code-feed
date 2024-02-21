@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\app\Services;
+namespace Tests\Feature\Services;
 
 use App\Services\AI\GoogleAIService;
 use Tests\TestCase;

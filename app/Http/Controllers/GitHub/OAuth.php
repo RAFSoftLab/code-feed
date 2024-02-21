@@ -57,6 +57,7 @@ class OAuth extends Controller
             $user = User::firstOrCreate([
                 'email' => $response['email'],
             ])->fill([
+                'name' => $response['login'],
                 'github_id' => $response['login'],
                 'github_access_token' => $accessToken,
                 'github_refresh_token' => $refreshToken,

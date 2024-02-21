@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\app\Services\Feed;
+namespace Tests\Feature\Services\Feed;
 
 
 use App\Models\User;
