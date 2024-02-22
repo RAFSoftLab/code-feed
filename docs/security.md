@@ -6,11 +6,39 @@
 2. [x] User access control
    - Implement user login functionality and allow access to imported repos only to user that imported them
    
-3. [x] Source code security issues
+3. [x] Source code security issues.
    - Implement SAST tool to scan code in CI
      - [x] Implement [Snyk](https://snyk.io) monitoring tool.
      - [x] Implement [Semgrep](https://github.com/semgrep/semgrep) open source SAST.
-4. [ ] Fix security issues:
+4. [ ] Review [OWASP TOP 10](https://owasp.org/www-project-top-ten/)
+    - [ ] [A01:2021 – Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
+        - [x] Make sure non admin users cant access the admin configuration. 
+        - [ ] Make sure users can't access private repositories and commits from other users.
+    - [ ]  [A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
+      - [ ] Verify that the data is not being transferred in plain text.
+      - [ ] Implement https endpoints.
+   - [ ] [A03:2021 – Injection](https://owasp.org/Top10/A03_2021-Injection/)
+     - [ ] Make sure all the user data is validated, filtered, or sanitized by the application. 
+   - [ ] [A04:2021 – Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/)
+     - [x] Implement security analysis in CI/tolling.
+     - [ ] Learn more about secure design.
+   - [ ] [A05_2021-Security_Misconfiguration](A05_2021-Security_Misconfiguration/)
+     - [ ] Security hardening based on SAST analysis.
+   - [ ] [A06:2021 – Vulnerable and Outdated Components](https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/)
+     - [x] Use dependency bots to keep libraries up to date (dependabot)
+     - [ ] Check for some PHP/Laravel specific dependency bots.
+     - [ ] Remove unused dependencies if any.
+   - [ ] [A07:2021 – Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)
+     - [ ] Implement stronger password policy.
+     - [ ] Consider only using GitHub and other OAuth providers for login.
+   - [ ] [A08:2021 – Software and Data Integrity Failures](https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/)
+     - [x] software supply chain security tool - Snyk to analyse dependencies.
+   - [ ] [A09:2021 – Security Logging and Monitoring Failures](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
+     - [ ] Improve logging and monitoring.
+     - Explore penetration testing and scans by dynamic application security testing (DAST) tools (such as OWASP ZAP) do not trigger alerts.
+   - [ ] [A10:2021 – Server-Side Request Forgery (SSRF)](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery/)
+     - [ ] Sanitize and validate all client-supplied input data
+5.[ ] Fix security issues found by SAST:
    - [ ] Dockerfile
    ❯❯❱ dockerfile.security.missing-user.missing-user
    By not specifying a USER, a program in the container may run as 'root'. This is a security hazard.
