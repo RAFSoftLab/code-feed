@@ -23,11 +23,14 @@ class FeedService
     private string $gitRepositoryURL;
     private User $user;
 
+    private GitRepositoryService $gitRepositoryService;
+
     public function __construct(LLMService $aiService, Authenticatable  $user, string $gitRepositoryUrl = '')
     {
         $this->aiService = $aiService;
         $this->gitRepositoryURL = $gitRepositoryUrl;
         $this->user = $user;
+        $this->gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL, $this->user);
     }
 
     public function getFeed(): Collection
@@ -77,21 +80,20 @@ class FeedService
 
     public function loadFreshFeed(): void
     {
-        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL, $this->user);
-        $this->deleteRepository($gitRepositoryService);
+        $this->deleteRepository();
 
-        $commits = $gitRepositoryService->getCommits();
+        $commits = $this->gitRepositoryService->getCommits();
         $repository = Repository::create(
             [
-                'name' => $gitRepositoryService->getRepositoryName(),
-                'organization' => $gitRepositoryService->getOrganizationName(),
+                'name' => $this->gitRepositoryService->getRepositoryName(),
+                'organization' => $this->gitRepositoryService->getOrganizationName(),
                 'user_id' => $this->user->id,
                 'url' => $this->gitRepositoryURL,
                 'description' => '',
             ]
         );
         foreach ($commits as $commit) {
-            $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
+            $commitChanges = $this->gitRepositoryService->getCommitChanges($commit->getHash());
             $issues = $this->aiService->findIssues($commitChanges);
             $commitModel = $this->createCommitModel($commit, $commitChanges, $issues, $repository);
             $this->createPosts($commitModel, $this->aiService);
@@ -100,15 +102,14 @@ class FeedService
 
     public function updateFeed(): void
     {
-        $gitRepositoryService = new GitRepositoryService($this->gitRepositoryURL, $this->user);
-        $commits = $gitRepositoryService->getNewCommits();
+        $commits = $this->gitRepositoryService->getNewCommits();
 
         $repository = Repository::where('url', $this->gitRepositoryURL)
             ->where('user_id', $this->user->id)
             ->first();
 
         foreach ($commits as $commit) {
-            $commitChanges = $gitRepositoryService->getCommitChanges($commit->getHash());
+            $commitChanges = $this->gitRepositoryService->getCommitChanges($commit->getHash());
             $issues = $this->aiService->findIssues($commitChanges);
 
             $commitModel = $this->createCommitModel($commit, $commitChanges, $issues, $repository);
@@ -154,12 +155,13 @@ class FeedService
         ]);
     }
 
-    private function deleteRepository(GitRepositoryService $gitRepositoryService): void
+    public function deleteRepository(): void
     {
-        $gitRepositoryService->cleanUp();
+        $this->gitRepositoryService->cleanUp();
         Repository::where('user_id', $this->user->id)
-            ->where('organization', $gitRepositoryService->getOrganizationName())
-            ->where('name', $gitRepositoryService->getRepositoryName())
+            ->where('organization', $this->gitRepositoryService->getOrganizationName())
+            ->where('name', $this->gitRepositoryService->getRepositoryName())
             ->delete();
     }
+
 }
