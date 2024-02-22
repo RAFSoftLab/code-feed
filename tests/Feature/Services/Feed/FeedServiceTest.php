@@ -20,7 +20,6 @@ class FeedServiceTest extends TestCase
         self::assertEquals(6, $feedService->getFeed()->count());
 
         $feedService->updateFeed();
-        $feedService->deleteRepository();
         // TODO add testing for new commits.
     }
 }
