@@ -53,4 +53,9 @@ class User extends Authenticatable
     public function repositories(): HasMany {
         return $this->hasMany(Repository::class);
     }
+
+    public function isGithubUser(): bool
+    {
+        return !empty($this->github_access_token);
+    }
 }

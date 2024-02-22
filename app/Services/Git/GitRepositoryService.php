@@ -24,6 +24,7 @@ class GitRepositoryService
         // $pattern = '/:(.*)\/(.*).git/';
         // preg_match($pattern, $githubRepository, $matches);
         $pattern ='~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~';
+        Log::info($gitRepositoryUrl);
         preg_match($pattern, $this->repositoryUrl, $matches);
         $this->organizationName = $matches[1];
         $this->repositoryName = $matches[2];

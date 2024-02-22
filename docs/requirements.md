@@ -23,7 +23,7 @@
 - [x] FR 4.3 Implement admin functionality.
 - [x] FR 4.4 User dashboard - show statistics about the current user.
 ### 5. Server management
-- [ ] FR 5.1 Admin should be able to switch between local and remote LLM service.
+- [ ] FR 5.1 Admin should be able to switch between local and remote LLM model.
 
 ## Beyond POC
 ### 1. GIT
@@ -32,11 +32,19 @@
  - [ ] FR 2.1 Create posts that convey that somebody changed user's code.
  - [ ] FR 2.2 Create posts that say that somebody removed user's code.
  - [ ] Implement "endless" scrolling in CodeFeed UI.
+ - [ ] Add created tasks to the Feed.
+ - [ ] Add GitHub issues to the Feed.
+ - [ ] Identify failed CI runs for commits and use for ranking.
 ### 3. Commit Analysis
  - [ ] FR 3.1 FR 2.3 Find additional features for ranking:
      - Bugs
      - Security Issues
      - Code Complexity
      - Size of code
-### 4. Task Management
- - [ ] Implement task assignment directly from the CodeFeed UI
+### 5. User Management
+ - [ ] Implement user registration via Gitlab.
+ - [ ] Implement login via Bitbucket.
+ - [ ] Implement teams/organizations management.
+ - [ ] Implement inviting team members.
+### 6. Task Management
+ - [ ] Implement task assignment directly from the CodeFeed UI.

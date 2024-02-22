@@ -21,12 +21,16 @@ class GithubRepositories extends Component
     public function render(): View
     {
         $user = Auth::user();
-        $accessToken =  $user->github_access_token;
-        $response = Http::withToken($accessToken)->get('https://api.github.com/user/repos');
-        $this->repositories = array_filter(
-            json_decode($response->body(), true),
-            fn($repository) => $this->filterImported($repository)
-        );
+        if ($user->isGithubUser()) {
+
+            $accessToken =  $user->github_access_token;
+            $response = Http::withToken($accessToken)->get('https://api.github.com/user/repos');
+            $this->repositories = array_filter(
+                json_decode($response->body(), true),
+                fn($repository) => $this->filterImported($repository)
+            );
+
+        }
 
         return view('livewire.github-repositories', [
             'repositories' => $this->repositories,
@@ -39,7 +43,7 @@ class GithubRepositories extends Component
             $this->selectedRepositories[] = $this->newRepository;
             $this->newRepository = ''; // Clear the input field after adding the value
         }
-        // Reset the selected repositories array
+
         foreach ($this->selectedRepositories as $selectedRepository) {
             LoadGitRepositoryJob::dispatch([
                 'repository' => $selectedRepository,
