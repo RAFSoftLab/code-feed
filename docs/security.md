@@ -76,7 +76,7 @@
 
             4┆ app:
 
-   - [ ] resources/views/livewire/layout/navigation.blade.php
+   - [x] resources/views/livewire/layout/navigation.blade.php
    ❯❱ php.symfony.security.audit.symfony-non-literal-redirect.symfony-non-literal-redirect
    The `redirect()` method does not check its destination in any way. If you redirect to a URL provided
    by end-users, your application may be open to the unvalidated redirects security vulnerability.
@@ -85,7 +85,7 @@
 
            15┆ $this->redirect('/', navigate: true);
 
-   - [ ] resources/views/livewire/pages/auth/register.blade.php
+   - [x] resources/views/livewire/pages/auth/register.blade.php
    ❯❱ php.symfony.security.audit.symfony-non-literal-redirect.symfony-non-literal-redirect
    The `redirect()` method does not check its destination in any way. If you redirect to a URL provided
    by end-users, your application may be open to the unvalidated redirects security vulnerability.
@@ -94,7 +94,7 @@
 
            36┆ $this->redirect(RouteServiceProvider::HOME, navigate: true);
 
-   - [ ] resources/views/livewire/pages/auth/verify-email.blade.php
+   - [x] resources/views/livewire/pages/auth/verify-email.blade.php
    ❯❱ php.symfony.security.audit.symfony-non-literal-redirect.symfony-non-literal-redirect
    The `redirect()` method does not check its destination in any way. If you redirect to a URL provided
    by end-users, your application may be open to the unvalidated redirects security vulnerability.
@@ -103,7 +103,7 @@
 
            35┆ $this->redirect('/', navigate: true);
 
-   - [ ] resources/views/livewire/profile/delete-user-form.blade.php
+   - [x] resources/views/livewire/profile/delete-user-form.blade.php
    ❯❱ php.symfony.security.audit.symfony-non-literal-redirect.symfony-non-literal-redirect
    The `redirect()` method does not check its destination in any way. If you redirect to a URL provided
    by end-users, your application may be open to the unvalidated redirects security vulnerability.

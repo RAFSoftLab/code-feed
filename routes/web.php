@@ -23,8 +23,8 @@ require __DIR__.'/auth.php';
 
 Route::get('/github/oauth', \App\Http\Controllers\GitHub\OAuth::class);
 Route::get('/github/auth-success', GithubRepositories::class);
-Route::view('/admin', 'profile')
-    ->middleware('auth:admin');
+//Route::view('/admin', 'profile')
+//    ->middleware('auth:admin');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')

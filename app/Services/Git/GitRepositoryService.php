@@ -6,6 +6,7 @@ use App\Models\User;
 use Gitonomy\Git\Admin;
 use Gitonomy\Git\Repository;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
 
 class GitRepositoryService
 {
@@ -29,7 +30,11 @@ class GitRepositoryService
         $this->organizationName = $matches[1];
         $this->repositoryName = $matches[2];
         // Change to include the token to get private repositories.
-        $this->repositoryUrl = "https://$user->github_access_token@github.com/$matches[1]/$matches[2].git";
+        if ($user->isGithubUser()) {
+            $this->repositoryUrl = "https://$user->github_access_token@github.com/$matches[1]/$matches[2].git";
+        } else {
+            $this->repositoryUrl = "https://github.com/$matches[1]/$matches[2].git";
+        }
         $this->dirName = sys_get_temp_dir() . DIRECTORY_SEPARATOR
             .($user? $user->email.DIRECTORY_SEPARATOR : '')
             .$this->organizationName.'_'.$this->repositoryName;
@@ -109,16 +114,14 @@ class GitRepositoryService
 
     private function getLogBetweenCommits(string $localCommitHash, string $remoteCommitHash): array
     {
-        $command = "cd $this->dirName && git --no-pager log --format=\"%H\" $localCommitHash..$remoteCommitHash";
-        print "Running command: $command\n";
-        exec($command, $output);
-        return $output;
+        $command = Process::run("cd $this->dirName && git --no-pager log --format=\"%H\" $localCommitHash..$remoteCommitHash");
+        return explode(PHP_EOL,$command->output());
     }
 
     public function getCommitChanges(string $commitHash): string
     {
-        exec("cd $this->dirName && git --no-pager show $commitHash", $output);
-        return implode("\n", $output);
+        $command = Process::run("cd $this->dirName && git --no-pager show $commitHash");
+        return $command->output();
     }
 
     private function generateTmpDir(): void
@@ -128,7 +131,7 @@ class GitRepositoryService
 
     private function removeDirectory(string $dir): void
     {
-        system('rm -rf '.$dir);
+        Process::run('rm -rf '.$dir);
     }
 
     public function getRepositoryName(): string

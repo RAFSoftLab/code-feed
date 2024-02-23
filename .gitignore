@@ -20,3 +20,4 @@ yarn-error.log
 .idea
 .editorconfig
 /infection.json5
+/repositories/
