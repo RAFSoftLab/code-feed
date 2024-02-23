@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 use Illuminate\Auth\RequestGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -27,9 +28,18 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        /* define a admin user role */
-        Gate::define('isAdmin', function($user) {
-            return $user->is_admin;
+        // define a admin user role */
+        Gate::define('isAdmin', fn($user) => $user->isAdmin());
+
+        Auth::viaRequest('admin', function (Request $request) {
+            $user = Auth::user();
+            return $user->isAdmin() ? $user : null;
         });
+
+        Gate::define(
+            'access-repository',
+            fn(User $user, string $organization, string $repository)
+                => $user->repositories()->where('organization', $organization)->where('name', $repository)->exists()
+        );
     }
 }

@@ -10,9 +10,9 @@
      - [x] Implement [Snyk](https://snyk.io) monitoring tool.
      - [x] Implement [Semgrep](https://github.com/semgrep/semgrep) open source SAST.
 4. [ ] Review [OWASP TOP 10](https://owasp.org/www-project-top-ten/)
-    - [ ] [A01:2021 – Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
+    - [x] [A01:2021 – Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
         - [x] Make sure non admin users cant access the admin configuration. 
-        - [ ] Make sure users can't access private repositories and commits from other users.
+        - [x] Make sure users can't access private repositories and commits from other users.
     - [ ]  [A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
       - [ ] Verify that the data is not being transferred in plain text.
       - [ ] Implement https endpoints.

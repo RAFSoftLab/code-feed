@@ -16,7 +16,7 @@ class FeedService
     // Define weights for each factor
     const WEIGHT_BOTH_FLAGS = 3;
     const WEIGHT_ONE_FLAG = 2;
-    const WEIGHT_LENGTH = 1;
+    const WEIGHT_LENGTH = 0.001;
     const MAX_TIME_DECAY_FACTOR = 0.99; // Maximum time decay factor
     const MAX_HOUR_DIFFERENCE = 24 * 365; // Maximum time difference in hours (1 year)
     private LLMService $aiService;
@@ -66,8 +66,8 @@ class FeedService
             $decayFactor = pow(self::MAX_TIME_DECAY_FACTOR, $limitedHourDelta);
 
             $score *= $decayFactor;
-            // Ensure a minimum score of 0.1
 
+            // Ensure a minimum score of 0.1
             return max($score, 0.1);
         };
 

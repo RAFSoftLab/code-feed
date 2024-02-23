@@ -14,6 +14,8 @@
  - [x] FR 2.2 Apply ranking algorithm to each post.
  - [x] FR 2.3 Display each post in sorted order according to the ranking algorithm.
  - [x] FR 2.3 Personalize news feed for the current user.
+ - [ ] FR 2.4 Extend the sorting algorithm to rank higher the kinds of posts user looked at before
+   - Clicking on backend posts should show more backend posts in the future etc.
 ### 3. Commit Analysis
  - [x] FR 3.1 Use LLM to infer the summary of each commit.
  - [x] FR 3.2 Use LLM to infer bugs and security issues in each commit.

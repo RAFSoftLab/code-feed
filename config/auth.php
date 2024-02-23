@@ -42,7 +42,6 @@ return [
         ],
         'admin' => [
             'driver' => 'admin',
-            'provider' => 'users',
         ],
     ],
 

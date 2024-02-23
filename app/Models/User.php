@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Repository::class);
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
     public function isGithubUser(): bool
     {
         return !empty($this->github_access_token);

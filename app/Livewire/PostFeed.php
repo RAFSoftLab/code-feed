@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Commit;
 use App\Models\Repository;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 use Livewire\Attributes\Title;
@@ -23,6 +24,10 @@ class PostFeed extends Component
     #[Title('Repository Post Feed')]
     public function render(): View
     {
+        if (!Gate::allows('access-repository', [$this->organization, $this->repository])) {
+            abort(403);
+        }
+
         $repository =  Repository::where('user_id', auth()->user()->id)
             ->where('organization', $this->organization)
             ->where('name', $this->repository)
