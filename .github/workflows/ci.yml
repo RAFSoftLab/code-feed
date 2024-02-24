@@ -12,6 +12,8 @@ jobs:
         run: cp .env.example .env
       - name: Install Composer Dependencies
         uses: php-actions/composer@v6
+      - name: Create Database
+        run: touch database/database.sqlite
       - name: Run Migrations
         run: php artisan migrate
       - name: Run Tests
