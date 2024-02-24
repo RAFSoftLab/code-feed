@@ -12,7 +12,9 @@ jobs:
         run: cp .env.example .env
       - name: Install Composer Dependencies
         uses: php-actions/composer@v6
-      - name: Run
+      - name: Run Migrations
+        run: php artisan migrate
+      - name: Run Tests
         run: php artisan test
         env:
           GOOGLE_AI_KEY: ${{ secrets.GOOGLE_AI_KEY }}
