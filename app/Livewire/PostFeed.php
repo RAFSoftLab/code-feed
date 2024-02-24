@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Commit;
 use App\Models\Repository;
+use App\Rules\ValidGithubName;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -15,8 +16,17 @@ class PostFeed extends Component
     public string $organization;
     public string $repository;
 
+    protected function rules(): array
+    {
+        return [
+            'organization' => new ValidGithubName(),
+            'repository' => new ValidGithubName(),
+        ];
+    }
+
     public function mount(string $organization, string $repository): void
     {
+
         $this->organization = $organization;
         $this->repository = $repository;
     }
@@ -27,6 +37,8 @@ class PostFeed extends Component
         if (!Gate::allows('access-repository', [$this->organization, $this->repository])) {
             abort(403);
         }
+
+        $this->validate();
 
         $repository =  Repository::where('user_id', auth()->user()->id)
             ->where('organization', $this->organization)

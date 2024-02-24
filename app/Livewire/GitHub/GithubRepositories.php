@@ -3,6 +3,8 @@
 namespace App\Livewire\GitHub;
 
 use App\Jobs\LoadGitRepositoryJob;
+use App\Rules\ValidGithubName;
+use App\Rules\ValidGithubURL;
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Http;
@@ -17,6 +19,13 @@ class GithubRepositories extends Component
     public Collection $alreadyImportedRepositories;
     public string $newRepository = '';
 
+    protected function rules(): array
+    {
+        return ['newRepository' => ['URL', new ValidGithubURL()]];
+    }
+    protected $messages = [
+        'newRepository' => 'The :attribute must be a valid GitHub https url.',
+    ];
 
     public function render(): View
     {
@@ -40,8 +49,9 @@ class GithubRepositories extends Component
     public function importSelected(): void
     {
         if ($this->newRepository) {
+            $this->validateOnly('newRepository');
             $this->selectedRepositories[] = $this->newRepository;
-            $this->newRepository = ''; // Clear the input field after adding the value
+            $this->newRepository = '';
         }
 
         foreach ($this->selectedRepositories as $selectedRepository) {

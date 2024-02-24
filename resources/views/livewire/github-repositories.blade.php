@@ -13,6 +13,7 @@
             <div class="mb-4">
                 <x-input-label for="new_repository" class="block text-gray-700 text-sm font-bold mr-2">Import any open source repository:</x-input-label>
                 <x-text-input id="new_repository" wire:model="newRepository" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                @error('newRepository') <span class="error">{{ $message }}</span> @enderror
             </div>
             <x-primary-button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Import Selected Repositories</x-primary-button>
         </form>

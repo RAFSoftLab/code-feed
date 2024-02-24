@@ -28,6 +28,8 @@ class Commits extends Component
             abort(403);
         }
 
+        $this->validate();
+
         $repository =  Repository::where('user_id', auth()->user()->id)
             ->where('organization', $this->organization)
             ->where('name', $this->repository)

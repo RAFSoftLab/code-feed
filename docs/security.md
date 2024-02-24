@@ -16,8 +16,8 @@
     - [ ]  [A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
       - [ ] Verify that the data is not being transferred in plain text.
       - [ ] Implement https endpoints.
-   - [ ] [A03:2021 – Injection](https://owasp.org/Top10/A03_2021-Injection/)
-     - [ ] Make sure all the user data is validated, filtered, or sanitized by the application. 
+   - [x] [A03:2021 – Injection](https://owasp.org/Top10/A03_2021-Injection/)
+     - [x] Make sure all the user data is validated, filtered, or sanitized by the application. 
    - [ ] [A04:2021 – Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/)
      - [x] Implement security analysis in CI/tolling.
      - [ ] Learn more about secure design.
@@ -35,8 +35,8 @@
    - [ ] [A09:2021 – Security Logging and Monitoring Failures](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
      - [ ] Improve logging and monitoring.
      - Explore penetration testing and scans by dynamic application security testing (DAST) tools (such as OWASP ZAP) do not trigger alerts.
-   - [ ] [A10:2021 – Server-Side Request Forgery (SSRF)](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery/)
-     - [ ] Sanitize and validate all client-supplied input data
+   - [x] [A10:2021 – Server-Side Request Forgery (SSRF)](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery/)
+     - [x] Sanitize and validate all client-supplied input data
 5.[ ] Fix security issues found by SAST:
    - [ ] Dockerfile
    ❯❯❱ dockerfile.security.missing-user.missing-user
@@ -48,7 +48,7 @@
            ▶▶┆ Autofix ▶ USER non-rootCMD php artisan serve --host 0.0.0.0
            38┆ CMD php artisan serve --host 0.0.0.0
 
-   - [ ] app/Services/Git/GitRepositoryService.php
+   - [x] app/Services/Git/GitRepositoryService.php
    ❯❯❱ php.lang.security.exec-use.exec-use
    Executing non-constant commands. This can lead to command injection.
    Details: https://sg.run/5Q1j

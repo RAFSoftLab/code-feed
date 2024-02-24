@@ -25,7 +25,6 @@ class GitRepositoryService
         // $pattern = '/:(.*)\/(.*).git/';
         // preg_match($pattern, $githubRepository, $matches);
         $pattern ='~github\.com/([^/]+)/([^/.]+?)(?:\.git)?$~';
-        Log::info($gitRepositoryUrl);
         preg_match($pattern, $this->repositoryUrl, $matches);
         $this->organizationName = $matches[1];
         $this->repositoryName = $matches[2];
@@ -35,7 +34,7 @@ class GitRepositoryService
         } else {
             $this->repositoryUrl = "https://github.com/$matches[1]/$matches[2].git";
         }
-        $this->dirName = sys_get_temp_dir() . DIRECTORY_SEPARATOR
+        $this->dirName = 'repositories' . DIRECTORY_SEPARATOR
             .($user? $user->email.DIRECTORY_SEPARATOR : '')
             .$this->organizationName.'_'.$this->repositoryName;
     }
