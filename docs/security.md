@@ -25,7 +25,7 @@
      - [ ] Security hardening based on SAST analysis.
    - [ ] [A06:2021 – Vulnerable and Outdated Components](https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/)
      - [x] Use dependency bots to keep libraries up to date (dependabot)
-     - [ ] Check for some PHP/Laravel specific dependency bots.
+     - [x] Check for some PHP/Laravel specific dependency bots.
      - [ ] Remove unused dependencies if any.
    - [ ] [A07:2021 – Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)
      - [ ] Implement stronger password policy.
