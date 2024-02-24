@@ -1,7 +1,6 @@
 name: Run tests and report coverage
 on:
   push:
-  pull_request:
 
 jobs:
   phpunit:
