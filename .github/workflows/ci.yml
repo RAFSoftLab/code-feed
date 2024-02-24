@@ -12,6 +12,12 @@ jobs:
         run: cp .env.example .env
       - name: Install Composer Dependencies
         uses: php-actions/composer@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - run: npm ci
+      - run: npm run build --if-present
       - name: Create Database
         run: touch database/database.sqlite
       - name: Run Migrations
