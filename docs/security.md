@@ -21,7 +21,7 @@
    - [ ] [A04:2021 – Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/)
      - [x] Implement security analysis in CI/tolling.
      - [ ] Learn more about secure design.
-   - [ ] [A05_2021-Security_Misconfiguration](A05_2021-Security_Misconfiguration/)
+   - [ ] [A05_2021-Security_Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
      - [ ] Security hardening based on SAST analysis.
    - [ ] [A06:2021 – Vulnerable and Outdated Components](https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/)
      - [x] Use dependency bots to keep libraries up to date (dependabot)
@@ -34,7 +34,7 @@
      - [x] software supply chain security tool - Snyk to analyse dependencies.
    - [ ] [A09:2021 – Security Logging and Monitoring Failures](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
      - [ ] Improve logging and monitoring.
-     - Explore penetration testing and scans by dynamic application security testing (DAST) tools (such as OWASP ZAP) do not trigger alerts.
+     - [x] Explore penetration testing and scans by dynamic application security testing (DAST) tools (such as OWASP ZAP) do not trigger alerts.
    - [x] [A10:2021 – Server-Side Request Forgery (SSRF)](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery/)
      - [x] Sanitize and validate all client-supplied input data
 5.[ ] Fix security issues found by SAST:
@@ -111,4 +111,8 @@
    Details: https://sg.run/4ey5
 
            22┆ $this->redirect('/', navigate: true);
-
+6. [ ] Perform penetration testing with ZAP and fix any security issues found:
+ - [x] Installed ZAP and ran automated penetration test.
+ - [ ] Dive deeper into pentesting.
+ - [ ] Fix any security issues found by ZAP that are high risk
+ - [ ] Evaluate security issues found by ZAP that are medium to low risk.
