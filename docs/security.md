@@ -112,7 +112,7 @@
 
            22┆ $this->redirect('/', navigate: true);
 6. [ ] Perform penetration testing with ZAP and fix any security issues found:
- - [x] Installed ZAP and ran automated penetration test.
- - [ ] Dive deeper into pentesting.
- - [ ] Fix any security issues found by ZAP that are high risk
- - [ ] Evaluate security issues found by ZAP that are medium to low risk.
+   - [x] Installed ZAP and ran automated penetration test.
+   - [ ] Dive deeper into pentesting.
+   - [ ] Fix any security issues found by ZAP that are high risk
+   - [ ] Evaluate security issues found by ZAP that are medium to low risk.
