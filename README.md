@@ -10,23 +10,27 @@ Code Feed is a tool that helps teams that are want to use non-blocking pull requ
 1. PHP 8+
 2. Composer 2.6+
 3. Docker
-## 1. Build container
+##  Build container
+Set up project environment:
 ```bash
-docker compose up -d
+cp .env.example .env
 ```
-## 2. Obtain Gemini API key
-When running for the first time, obtain an API key for [Google Gemini model](https://support.gemini.com/hc/en-us/articles/360031080191-How-do-I-create-an-API-key) and paste it into .env file that was created for you.
-## 3. Optional - refresh web page automatically
+When running for the first time, obtain an API key for [Google Gemini model](https://support.gemini.com/hc/en-us/articles/360031080191-How-do-I-create-an-API-key) and paste it into .env file.
+as well as the GitHub's application secrets.
+
+Build and start docker containers (customize .env for laradock if needed):
+```bash
+cd laradock
+cp .env.example .env
+docker-compose up -d nginx
+```
+Visit localhost in your browser to view the app.
+
+## Optional - refresh web page automatically
 ```bash
 npm run dev
 ```
 When editing the code, it will automatically refresh the web page.
-## 4. Load repository
-To load a repository from GitHub, run 
-```bash
-docker exec -it code-Feed-web php artisan app:load-git-repository repository_url
-```
- - repository_url: https link such as https://github.com/RAFSoftLab/code-feed-test-repo.git
 ## Running without docker
 ```bash
 sudo chmod -R 777 storage
