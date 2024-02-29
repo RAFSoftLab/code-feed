@@ -1,14 +1,42 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: code-feed:latest
-    container_name: code-Feed-web
-    ports:
-      - "8000:8000"
-      - "5173:5173"
-    volumes:
-      - .:/var/www/html
+
+    # PHP Service
+    php:
+        build:
+            context: .
+            target: php
+            args:
+                - APP_ENV=${APP_ENV}
+        environment:
+            - APP_ENV=${APP_ENV}
+            - CONTAINER_ROLE=app
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        ports:
+            - 8000:8000
+
+    # Queue Server
+    queue:
+        build:
+            context: .
+            target: php
+            args:
+                - APP_ENV=${APP_ENV}
+        environment:
+            - APP_ENV=${APP_ENV}
+            - CONTAINER_ROLE=queue
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+
+    # Node Server
+    node:
+        build:
+            context: .
+            target: node
+        volumes:
+            - .:/usr/src
+            - ./node_modules:/usr/src/node_modules
+        tty: true

@@ -1,38 +1,27 @@
-FROM php:8.1.0-fpm
+FROM php:8.1 as php
 
-# Install Additional System Dependencies
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    zip \
-    npm
+RUN apt-get update -y
+RUN apt-get install -y unzip libpq-dev libcurl4-gnutls-dev
+RUN docker-php-ext-install pdo pdo_mysql bcmath
 
-# Install node
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get install -y git
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+WORKDIR /var/www
+COPY . .
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql zip
+COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 
-# Check whether .env is existing and create if not.
-RUN if [ -f .env ]; then cp .env.example .env; fi
-COPY . /var/www/html
+ENV PORT=8000
+ENTRYPOINT [ "Docker/entrypoint.sh" ]
 
-WORKDIR /var/www/html
+# ==============================================================================
+#  node
+FROM node:14-alpine as node
 
-RUN chmod -R 777 storage
+WORKDIR /var/www
+COPY . .
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install project dependencies
-RUN composer install
+RUN npm install --global cross-env
 RUN npm install
 
-RUN touch database/database.sqlite
-RUN php artisan migrate
-RUN npm run build
-
-CMD php artisan serve --host 0.0.0.0
+VOLUME /var/www/node_modules
