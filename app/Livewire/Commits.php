@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Commit;
 use App\Models\Repository;
+use App\Rules\ValidGithubName;
 use App\Services\GithubService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -19,6 +19,14 @@ class Commits extends Component
     {
         $this->organization = $organization;
         $this->repository = $repository;
+    }
+
+    protected function rules(): array
+    {
+        return [
+            'organization' => new ValidGithubName(),
+            'repository' => new ValidGithubName(),
+        ];
     }
 
     #[Title('Feed')]

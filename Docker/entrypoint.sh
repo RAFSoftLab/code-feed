@@ -14,6 +14,7 @@ fi
 if [ ! -f "database/database.sqlite" ]; then
     echo "Creating database file for env $APP_ENV"
     touch database/database.sqlite
+    chmod -R 777 database/database.sqlite
 else
     echo "database file exists."
 fi
@@ -30,5 +31,5 @@ if [ "$role" = "app" ]; then
     exec docker-php-entrypoint "$@"
 elif [ "$role" = "queue" ]; then
     echo "Running the queue ... "
-    php /var/www/artisan queue:work --verbose --tries=3 --timeout=180
+    php artisan queue:work --verbose --timeout=0
 fi

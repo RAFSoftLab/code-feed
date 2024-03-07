@@ -59,7 +59,7 @@
             ⋮┆----------------------------------------
           130┆ system('rm -rf '.$dir);
 
-   - [ ] docker-compose.yml
+   - [x] docker-compose.yml
    ❯❱ yaml.docker-compose.security.no-new-privileges.no-new-privileges
    Service 'app' allows for privilege escalation via setuid or setgid binaries. Add 'no-new-
    privileges:true' in 'security_opt' to prevent this.
@@ -67,7 +67,7 @@
 
             4┆ app:
 
-   - [ ] ❯❱ yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+   - [x] ❯❱ yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
    Service 'app' is running with a writable root filesystem. This may allow malicious applications to
    download and run additional payloads, or modify container files. If an application inside a
    container has to save something temporarily consider using a tmpfs. Add 'read_only: true' to this
