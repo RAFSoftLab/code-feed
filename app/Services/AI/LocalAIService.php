@@ -2,7 +2,7 @@
 
 namespace App\Services\AI;
 
-use App\Services\AI\LLMService;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class LocalAIService implements LLMService
@@ -40,7 +40,7 @@ class LocalAIService implements LLMService
             Try to find any bugs or security issues in the following commit and explain them.
             TEXT;
 
-        $result = $this->removePunctuation($this->queryModel($systemText.$commit));
+        $result = $this->queryModel($systemText.$commit);
 
         print ($result."\n");
 
@@ -56,7 +56,7 @@ class LocalAIService implements LLMService
             It should also contain maximum 3 bullet points explaining what was done.
             Do not include author name in the summary.
             TEXT;
-        $result = $this->removePunctuation($this->queryModel($systemText.$commit));
+        $result = $this->queryModel($systemText.$commit);
 
         print ($result.PHP_EOL);
 
@@ -64,7 +64,7 @@ class LocalAIService implements LLMService
     }
 
     public function queryModel($question) {
-        $response = Http::post(config('services.ai.local_ai_url').'api/generate', [
+        $response = Http::timeout(0)->post(config('services.ai.local_ai_url').'api/generate', [
             'model' => config('services.ai.local_ai_model'),
             'prompt' => $question,
             'stream' => false,
@@ -74,7 +74,7 @@ class LocalAIService implements LLMService
         if ($response->successful()) {
             return $response->json()['response'];
         } else {
-            throw new \Exception('Failed to send POST request: ' . $response->body());
+            throw new Exception('Failed to send POST request: ' . $response->body());
         }
     }
 
