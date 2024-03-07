@@ -25,7 +25,7 @@
 - [x] FR 4.3 Implement admin functionality.
 - [x] FR 4.4 User dashboard - show statistics about the current user.
 ### 5. Server management
-- [ ] FR 5.1 Admin should be able to switch between local and remote LLM model.
+- [x] FR 5.1 Admin should be able to switch between local and remote LLM model.
 
 ## Beyond POC
 ### 1. GIT
