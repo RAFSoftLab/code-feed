@@ -28,7 +28,7 @@
      - [x] Check for some PHP/Laravel specific dependency bots.
      - [ ] Remove unused dependencies if any.
    - [ ] [A07:2021 – Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)
-     - [ ] Implement stronger password policy.
+     - [ ] Consider implementing stronger password policy.
      - [ ] Consider only using GitHub and other OAuth providers for login.
    - [ ] [A08:2021 – Software and Data Integrity Failures](https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/)
      - [x] software supply chain security tool - Snyk to analyse dependencies.

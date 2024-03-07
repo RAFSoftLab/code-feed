@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Feature\Services;
+namespace Services\AI;
 
 use App\Services\AI\GoogleAIService;
+use App\Services\AI\LocalAIService;
 use Tests\TestCase;
 
-class GoogleAIServiceTest extends TestCase
+class LocalAIServiceTest extends TestCase
 {
 // findIssues method returns correct array based on input commit
     public function test_find_issues_no_issues()
     {
-        $googleAIService = resolve(GoogleAIService::class);
+        $localAIService = resolve(LocalAIService::class);
         $commit =
             <<<TEXT
                 commit 381d95e8e9b61bdba076e3ee2d89807419224a51
@@ -33,14 +34,14 @@ class GoogleAIServiceTest extends TestCase
                 +Repository used to test code-Feed
             TEXT;
 
-        $result = $googleAIService->findIssues($commit);
+        $result = $localAIService->findIssues($commit);
 
         $this->assertEquals(['hasBugs' => false, 'hasSecurityIssues' => false], $result);
     }
 
     public function test_find_issues_found_issues()
     {
-        $googleAIService = resolve(GoogleAIService::class);
+        $localAIService = resolve(LocalAIService::class);
         $commit =
             <<<TEXT
                 commit 2086ceb525df08210b926e5d228a87e99d2d1e8f
@@ -69,14 +70,14 @@ class GoogleAIServiceTest extends TestCase
                 +document.getElementById("output").innerHTML = userInput;       
             TEXT;
 
-        $result = $googleAIService->findIssues($commit);
+        $result = $localAIService->findIssues($commit);
 
         $this->assertEquals(['hasBugs' => true, 'hasSecurityIssues' => true], $result);
     }
 
     public function test_find_issues_found_bugs_only()
     {
-        $googleAIService = resolve(GoogleAIService::class);
+        $localAIService = resolve(LocalAIService::class);
         $commit =
             <<<TEXT
                 diff --git a/auth/test.php b/auth/test.php
@@ -90,7 +91,7 @@ class GoogleAIServiceTest extends TestCase
                 +object->get();      
             TEXT;
 
-        $result = $googleAIService->findIssues($commit);
+        $result = $localAIService->findIssues($commit);
 
         $this->assertEquals(['hasBugs' => true, 'hasSecurityIssues' => false], $result);
     }
