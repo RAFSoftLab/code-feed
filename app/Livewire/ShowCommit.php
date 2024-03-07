@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Commit;
 use App\Rules\ValidGithubName;
-use App\Services\AI\GoogleAIService;
+use App\Services\AI\LLMService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Livewire\Attributes\Title;
@@ -33,7 +33,7 @@ class ShowCommit extends Component
     }
 
     #[Title('Commit')]
-    public function render(GoogleAIService $googleAIService): View
+    public function render(LLMService $googleAIService): View
     {
         if (!Gate::allows('access-repository', [$this->organization, $this->repository])) {
             abort(403);

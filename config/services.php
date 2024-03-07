@@ -42,5 +42,6 @@ return [
         'google_api_key' => env('GOOGLE_AI_KEY'),
         'local_ai_url' => env('LOCAL_AI_URL'),
         'local_ai_model' => env('LOCAL_AI_MODEL'),
+        'use_service' => env('AI_USE_SERVICE', 'local'),
     ],
 ];

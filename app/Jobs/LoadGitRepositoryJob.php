@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\AI\GoogleAIService;
+use App\Services\AI\LLMService;
 use App\Services\AI\LocalAIService;
 use App\Services\Feed\FeedService;
 use Illuminate\Bus\Queueable;
@@ -32,7 +33,8 @@ class LoadGitRepositoryJob implements ShouldQueue
         $user =  $this->data['user'];
         $selectedRepository = $this->data['repository'];
         $githubRepositoryUrl = $selectedRepository;
-        $feedService = new FeedService(new LocalAIService(), $user, $githubRepositoryUrl);
+        $llmService = resolve(LLMService::class);
+        $feedService = new FeedService($llmService, $user, $githubRepositoryUrl);
         $feedService->loadFreshFeed();
     }
 }
