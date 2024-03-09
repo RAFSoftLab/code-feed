@@ -35,7 +35,8 @@
      - [x] Explore penetration testing and scans by dynamic application security testing (DAST) tools (such as OWASP ZAP) do not trigger alerts.
    - [x] [A10:2021 – Server-Side Request Forgery (SSRF)](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery/)
      - [x] Sanitize and validate all client-supplied input data
-5.[ ] Fix security issues found by SAST:
+     
+5. [ ] Fix security issues found by SAST:
    - [ ] Dockerfile
    ❯❯❱ dockerfile.security.missing-user.missing-user
    By not specifying a USER, a program in the container may run as 'root'. This is a security hazard.
