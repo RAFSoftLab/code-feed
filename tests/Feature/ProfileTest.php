@@ -20,7 +20,6 @@ class ProfileTest extends TestCase
         $response
             ->assertOk()
             ->assertSeeVolt('profile.update-profile-information-form')
-            ->assertSeeVolt('profile.update-password-form')
             ->assertSeeVolt('profile.delete-user-form');
     }
 
