@@ -21,7 +21,7 @@
      - [x] Implement security analysis in CI/tolling.
      - [ ] Learn more about secure design.
    - [ ] [A05_2021-Security_Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
-     - [ ] Security hardening based on SAST analysis.
+     - [x] Security hardening based on SAST analysis.
    - [ ] [A06:2021 – Vulnerable and Outdated Components](https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/)
      - [x] Use dependency bots to keep libraries up to date (dependabot)
      - [x] Check for some PHP/Laravel specific dependency bots.
