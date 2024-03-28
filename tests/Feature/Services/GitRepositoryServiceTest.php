@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Tests\Feature\Services;
 
 use App\Models\User;
 use App\Services\Git\GitRepositoryService;

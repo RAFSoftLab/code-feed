@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e501459b447ff81c93908854b866f06",
+    "content-hash": "a1ae6f7c19faafd2da3de2d716c9c241",
     "packages": [
         {
             "name": "brandymedia/turbine-ui-core",

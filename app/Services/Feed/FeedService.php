@@ -119,7 +119,7 @@ class FeedService
     private function createPosts(Commit $commit, LLMService $aiService): void
     {
         if (empty($commit->summary))
-            $summaries = $aiService->summarize($commit);
+            $summaries = $aiService->summarize($commit->change);
         else $summaries = [$commit->summary];
 
         foreach ($summaries as $summary) {

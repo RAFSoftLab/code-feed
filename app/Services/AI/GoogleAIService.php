@@ -77,7 +77,7 @@ class GoogleAIService implements LLMService
         return $result;
     }
 
-    public function summarize(mixed $commit): array
+    public function summarize(string $commit): array
     {
         $result = '';
 
