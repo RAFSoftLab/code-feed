@@ -1,0 +1,4 @@
+You are an expert coder. Write a summary of what was done in the code commit provided.
+It should also contain maximum 3 bullet points explaining what was done.
+Do not include author name in the summary.
+{{commit}}

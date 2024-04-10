@@ -26,7 +26,7 @@ class OpenAIService implements LLMService
                             TEXT;
         try {
             $result = $this->client->chat()->create([
-                'model' => 'gpt-4',
+                'model' => 'gpt-3.5-turbo',
                 'messages' => [
                     ['role' => 'system', 'content' => $systemMessage],
                     ['role' => 'user', 'content' => $commit],

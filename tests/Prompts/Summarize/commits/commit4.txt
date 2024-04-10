@@ -1,0 +1,76 @@
+commit ed92b38e193287db427a11443a34d3ea8c8ba92f
+Author: slavkof <slavko.fodor@gmail.com>
+Date:   Wed Feb 21 11:30:37 2024 +0100
+
+    Fixed tests
+
+diff --git a/app/Http/Controllers/GitHub/OAuth.php b/app/Http/Controllers/GitHub/OAuth.php
+index 2636987..6e5176f 100644
+--- a/app/Http/Controllers/GitHub/OAuth.php
++++ b/app/Http/Controllers/GitHub/OAuth.php
+@@ -57,6 +57,7 @@ private function updateOrCreateUser(string $accessToken, string $refreshToken, $
+             $user = User::firstOrCreate([
+                 'email' => $response['email'],
+             ])->fill([
++                'name' => $response['login'],
+                 'github_id' => $response['login'],
+                 'github_access_token' => $accessToken,
+                 'github_refresh_token' => $refreshToken,
+diff --git a/database/migrations/2014_10_12_000000_create_users_table.php b/database/migrations/2014_10_12_000000_create_users_table.php
+index 65aa059..4a931c0 100644
+--- a/database/migrations/2014_10_12_000000_create_users_table.php
++++ b/database/migrations/2014_10_12_000000_create_users_table.php
+@@ -13,7 +13,7 @@ public function up(): void
+     {
+         Schema::create('users', function (Blueprint $table) {
+             $table->id();
+-            $table->string('name');
++            $table->string('name')->nullable();
+             $table->string('email')->unique();
+             $table->timestamp('email_verified_at')->nullable();
+             $table->string('password')->nullable();
+diff --git a/tests/Feature/app/Services/Feed/FeedServiceTest.php b/tests/Feature/Services/Feed/FeedServiceTest.php
+similarity index 92%
+rename from tests/Feature/app/Services/Feed/FeedServiceTest.php
+rename to tests/Feature/Services/Feed/FeedServiceTest.php
+index a2a8404..36a9942 100644
+--- a/tests/Feature/app/Services/Feed/FeedServiceTest.php
++++ b/tests/Feature/Services/Feed/FeedServiceTest.php
+@@ -1,6 +1,6 @@
+ <?php
+
+-namespace Tests\Feature\app\Services\Feed;
++namespace Tests\Feature\Services\Feed;
+
+
+ use App\Models\User;
+diff --git a/tests/Feature/app/Services/GithubServiceTest.php b/tests/Feature/Services/GithubServiceTest.php
+similarity index 94%
+rename from tests/Feature/app/Services/GithubServiceTest.php
+rename to tests/Feature/Services/GithubServiceTest.php
+index 15d21c4..c38c70f 100644
+--- a/tests/Feature/app/Services/GithubServiceTest.php
++++ b/tests/Feature/Services/GithubServiceTest.php
+@@ -1,6 +1,6 @@
+ <?php
+
+-namespace Tests\Feature\app\Services;
++namespace Tests\Feature\Services;
+
+ use App\Services\GithubService;
+ use Tests\TestCase;
+diff --git a/tests/Feature/app/Services/GoogleAIServiceTest.php b/tests/Feature/Services/GoogleAIServiceTest.php
+similarity index 98%
+rename from tests/Feature/app/Services/GoogleAIServiceTest.php
+rename to tests/Feature/Services/GoogleAIServiceTest.php
+index be9b28c..c3b4734 100644
+--- a/tests/Feature/app/Services/GoogleAIServiceTest.php
++++ b/tests/Feature/Services/GoogleAIServiceTest.php
+@@ -1,6 +1,6 @@
+ <?php
+
+-namespace Tests\Feature\app\Services;
++namespace Tests\Feature\Services;
+
+ use App\Services\AI\GoogleAIService;
+ use Tests\TestCase;

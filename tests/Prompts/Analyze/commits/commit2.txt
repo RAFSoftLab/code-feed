@@ -1,0 +1,24 @@
+commit 2086ceb525df08210b926e5d228a87e99d2d1e8f
+Author: Slavko Fodor <slavko.fodor@gmail.com>
+Date:   Sun Jan 28 07:10:43 2024 +0100
+
+    Simple js to test the LLM
+
+diff --git a/auth/server.js b/auth/server.js
+new file mode 100644
+index 0000000..19b07b4
+--- /dev/null
++++ b/auth/server.js
+@@ -0,0 +1,12 @@
++const express = require('express');
++const app = express();
++const users = require('./usersDatabase');
++
++var userInput = prompt("Please enter your password:");
++document.write("Your password is: " + userInput);
++
++var string = null
++document.write(string.length);
++
++var userInput = "<script>alert('test');</script>";
++document.getElementById("output").innerHTML = userInput;

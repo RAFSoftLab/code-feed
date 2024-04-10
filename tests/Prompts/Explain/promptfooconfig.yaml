@@ -1,0 +1,23 @@
+description: 'Evaluate LLM output for commit summary'
+
+prompts: [prompts\prompt.txt]
+
+providers:
+  - openai:gpt-4
+  - openai:gpt-3.5-turbo
+  - anthropic:messages:claude-3-opus-20240229
+  - cohere:command
+  - id: openai:chat:mixtral-8x7b-32768
+    config:
+      apiBaseUrl: https://api.groq.com/openai/v1
+      apiKeyEnvar: GROQ_API_KEY
+
+tests:
+  - vars:
+      commit: file://commits/commit1.txt
+  - vars:
+      commit: file://commits/commit2.txt
+  - vars:
+      commit: file://commits/commit3.txt
+  - vars:
+      commit: file://commits/commit4.txt
