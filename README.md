@@ -60,6 +60,7 @@ Replace sfodor with your user name and correct path to code-feed.
  - [Diagrams](docs/diagrams.md)
  - [Prompt engineering](docs/prompt-engineering.md)
  - [Security considerations](docs/security.md)
+ - [Architecture](docs/architecture.md)
  - [Kanban Board](https://github.com/orgs/RAFSoftLab/projects/5)
 
 ## License
