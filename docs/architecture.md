@@ -3,7 +3,7 @@
 ![current-architecture](current-architecture.png)
 ## Proposed Architecture
 ![proposed-architecture](future-architecture.png)
-# Feed Fanout Architecture
+# Feed publishing Architecture
 ## Fanout Read architecture (Pull)
 When you request for news feed, you creates a read request to the system. With fanout read, the read request is fanned out to all your followees to read their posts.
 ![feed-architecture](fanout-read.png)
