@@ -6,6 +6,7 @@
 # Feed Fanout Architecture
 ## Fanout Read architecture
 ![feed-architecture](fanout-read.png)
+
 Pros:
 1. The cost of write operation is low.
 2. Easier to do different aggregation strategies when reading the data.
@@ -15,11 +16,12 @@ Cons:
 2. new data can't be shown to the users until they pull.
 3. If we periodically pull to fetch latest posts, it's hard to find the right pull cadence and most of the pull requests will result in an empty response, causing waste of resources.
 
-. 
+
 This architecture is better for write-intensive application.
 
 ## Fanout Write architecture
 ![fanout-write](fanout-write.png)
+
 Pros:
 1. The cost of read operation is low.
  
