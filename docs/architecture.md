@@ -4,7 +4,8 @@
 ## Proposed Architecture
 ![proposed-architecture](future-architecture.png)
 # Feed Fanout Architecture
-## Fanout Read architecture
+## Fanout Read architecture (Pull)
+When you request for news feed, you creates a read request to the system. With fanout read, the read request is fanned out to all your followees to read their posts.
 ![feed-architecture](fanout-read.png)
 
 Pros:
@@ -19,7 +20,8 @@ Cons:
 
 This architecture is better for write-intensive application.
 
-## Fanout Write architecture
+## Fanout Write architecture (push)
+When you send a new post, you creates a write request to the system. With fanout write, the write request is fanned out to all your followers to update their newsfeed.
 ![fanout-write](fanout-write.png)
 
 Pros:
