@@ -1,0 +1,28 @@
+description: 'Evaluate LLM output for commit summary'
+
+prompts: [ prompts\prompt3.txt]
+
+providers:
+  - openai:gpt-3.5-turbo
+  - anthropic:messages:claude-3-haiku-20240307
+tests:
+  - vars:
+      commit: file://commits/commit1.txt
+    assert:
+      - type: contains
+        value: hasNeither
+  - vars:
+      commit: file://commits/commit2.txt
+    assert:
+      - type: contains
+        value: hasBoth
+  - vars:
+      commit: file://commits/commit3.txt
+    assert:
+      - type: contains
+        value: hasBugs
+  - vars:
+      commit: file://commits/commit4.txt
+    assert:
+      - type: contains
+        value: hasNeither

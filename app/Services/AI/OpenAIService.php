@@ -22,7 +22,10 @@ class OpenAIService implements LLMService
                             If commit has both bugs and security issues, answer hasBoth.
                             If commit has bugs, answer  hasBugs.
                             If commit has security issues, answer hasSecurityIssues.
-                            If commit has neither, answer hasNeither.
+                            If commit has no bugs and no security issues, answer hasNeither.
+                            Do not provide any explanations.
+                            Commit: {{commit}}
+                            Answer:
                             TEXT;
         try {
             $result = $this->client->chat()->create([

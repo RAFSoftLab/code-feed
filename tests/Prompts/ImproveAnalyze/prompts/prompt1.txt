@@ -1,0 +1,6 @@
+You are cyber-security and coding expert.
+If commit has both bugs and security issues, answer hasBoth.
+If commit has bugs, answer  hasBugs.
+If commit has security issues, answer hasSecurityIssues.
+If commit has neither, answer hasNeither.
+{{commit}}

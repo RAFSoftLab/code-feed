@@ -1,0 +1,61 @@
+commit 7b36eaf49a1161797350e52e91b947619d20a29e
+Author: Slavko Fodor <slavko.fodor@gmail.com>
+Date:   Sun Jan 28 14:33:19 2024 +0100
+
+    Adds a new php class
+
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+index 0000000..2d46198
+--- /dev/null
++++ b/.idea/.gitignore
+@@ -0,0 +1,11 @@
++# Default ignored files^M
++/shelf/^M
++/workspace.xml^M
++# Editor-based HTTP Client requests^M
++/httpRequests/^M
++# Datasource local storage ignored files^M
++/dataSources/^M
++/dataSources.local.xml^M
++/modules.xml^M
++/php.xml^M
++/vcs.xml^M
+diff --git a/.idea/code-feed-test-repo.iml b/.idea/code-feed-test-repo.iml
+new file mode 100644
+index 0000000..1e9c706
+--- /dev/null
++++ b/.idea/code-feed-test-repo.iml
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>^M
++<module type="WEB_MODULE" version="4">^M
++  <component name="NewModuleRootManager">^M
++    <content url="file://$MODULE_DIR$">^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/gemini-api-php/client" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/nyholm/psr7" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/discovery" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/container" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-client" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-message" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/deprecation-contracts" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client-contracts" />^M
++      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/service-contracts" />^M
++    </content>^M
++    <orderEntry type="inheritedJdk" />^M
++    <orderEntry type="sourceFolder" forTests="false" />^M
++  </component>^M
++</module>
+\ No newline at end of file
+diff --git a/auth/test.php b/auth/test.php
+new file mode 100644
+index 0000000..90bf29b
+--- /dev/null
++++ b/auth/test.php
+@@ -0,0 +1,3 @@
++<?php
++$object = null;
++$object->get();
